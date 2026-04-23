@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { HelmetProvider } from 'react-helmet-async';
 import { Toaster } from 'react-hot-toast';
 import ScrollToTop from './components/ui/ScrollToTop';
+import ScrollReset from './components/ui/ScrollReset';
 
 // Layout Components
 import TopBar from './components/layout/TopBar';
@@ -28,6 +29,7 @@ function App() {
   return (
     <HelmetProvider>
       <Router>
+        <ScrollReset />
         <div className="app-container">
           <TopBar />
           <Navbar />
