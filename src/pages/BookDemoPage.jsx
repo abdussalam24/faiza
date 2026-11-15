@@ -41,7 +41,7 @@ const BookDemoPage = () => {
   return (
     <>
       <Seo
-        title="Book a Consultation | FABZ HR Consulting"
+        title="Book a Consultation | FABZ HR International Inc."
         description="Schedule a free 30-minute discovery call or HR health check with Faiza Hussain. No obligation, just clarity on your HR, staffing or career challenges."
         path="/book-demo"
         jsonLd={breadcrumbSchema([{ name: 'Book a Consultation', path: '/book-demo' }])}

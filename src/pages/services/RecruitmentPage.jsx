@@ -4,7 +4,7 @@ import ServicePageTemplate from '../../components/ui/ServicePageTemplate';
 /* Recruitment & Executive Search — core wording from www.fabzhr.com */
 const RecruitmentPage = () => {
   const seoContent = {
-    title: "Recruitment & Executive Search | FABZ HR Consulting Canada",
+    title: "Recruitment & Executive Search | FABZ HR International Inc.",
     description: "Recruitment and executive search in Canada: thoughtful sourcing, assessment and selection for specialist, professional and leadership roles, brief to offer."
   };
 

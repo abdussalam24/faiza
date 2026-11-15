@@ -8,7 +8,7 @@ import { SITE } from '../config/site';
 const ThankYouPage = () => (
   <>
     <Seo
-      title="Thank You | FABZ HR Consulting"
+      title="Thank You | FABZ HR International Inc."
       description="Thanks for contacting FABZ HR International Inc. We have received your message and will reply within 1 business day. Explore our HR services in the meantime."
       path="/thank-you"
       noindex

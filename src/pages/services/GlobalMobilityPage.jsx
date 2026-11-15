@@ -5,7 +5,7 @@ const unsplash = (id) => `https://images.unsplash.com/photo-${id}?auto=format&fm
 
 const GlobalMobilityPage = () => {
   const seoContent = {
-    title: "Global Mobility Services | FABZ HR Consulting Canada",
+    title: "Global Mobility Services | FABZ HR International Inc.",
     description: "Global mobility and relocation support for employers and professionals: work permit coordination, international onboarding and cross-border HR compliance."
   };
 
@@ -16,7 +16,7 @@ const GlobalMobilityPage = () => {
 
   const overview = {
     paragraphs: [
-      "Relocating employees internationally is complex, involving immigration laws, tax implications, and personal transitions. FABZ HR Consulting simplifies global mobility for both companies and individuals.",
+      "Relocating employees internationally is complex, involving immigration laws, tax implications, and personal transitions. FABZ HR International Inc. simplifies global mobility for both companies and individuals.",
       "We ensure that your international assignments are compliant, cost-effective, and smooth for the employee and their family.",
       "Whether you are bringing talent into Canada or moving employees abroad, we design policies and coordinate logistics to make the transition seamless.",
       "We focus on the people side of a move — planning, communication, onboarding and policy — and coordinate with licensed immigration consultants, lawyers and tax advisors where regulated advice is required, so every part of the move is handled by the right expert."

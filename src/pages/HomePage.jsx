@@ -14,7 +14,7 @@ const HomePage = () => {
   return (
     <>
       <Seo
-        title="FABZ HR Consulting | HR Services in Canada"
+        title="FABZ HR International Inc. | HR Services in Canada"
         description="Expert HR services across Canada: recruitment and executive search, fractional HR, global mobility and career coaching. Book a free HR health check today."
         path="/"
         jsonLd={organizationSchema()}

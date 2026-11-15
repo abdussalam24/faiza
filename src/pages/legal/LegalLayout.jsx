@@ -8,7 +8,7 @@ export const LAST_UPDATED = 'November 15, 2026';
 /** Shared layout for Privacy, Terms and Accessibility pages. sections: [{ id, title, body }] */
 const LegalLayout = ({ title, description, path, intro, sections }) => (
   <>
-    <Seo title={`${title} | FABZ HR Consulting`} description={description} path={path} jsonLd={breadcrumbSchema([{ name: title, path }])} />
+    <Seo title={`${title} | FABZ HR International Inc.`} description={description} path={path} jsonLd={breadcrumbSchema([{ name: title, path }])} />
     <PageHero title={title} subtitle={`Last updated: ${LAST_UPDATED}`} breadcrumbs={[{ name: title }]} door={false} />
 
     <section className="legal-section">

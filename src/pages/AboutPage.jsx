@@ -38,14 +38,14 @@ const AboutPage = () => {
   return (
     <>
       <Seo
-        title="About Faiza Hussain | FABZ HR Consulting"
+        title="About Faiza Hussain | FABZ HR International Inc."
         description="Meet Faiza Hussain, founder of FABZ HR: 14+ years in HR, 6+ in leadership, across finance, tech, aviation, healthcare and more. Our mission, vision and values."
         path="/about"
         jsonLd={[breadcrumbSchema([{ name: 'About', path: '/about' }]), personSchema]}
       />
 
       <PageHero
-        title="About FABZ HR Consulting"
+        title="About FABZ HR International Inc."
         subtitle="Built on experience. Driven by purpose."
         breadcrumbs={[{ name: 'About' }]}
       />

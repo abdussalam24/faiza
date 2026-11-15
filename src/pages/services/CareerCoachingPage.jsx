@@ -7,7 +7,7 @@ const unsplash = (id) => `https://images.unsplash.com/photo-${id}?auto=format&fm
 
 const CareerCoachingPage = () => {
   const seoContent = {
-    title: "Career Coaching | FABZ HR Consulting Canada",
+    title: "Career Coaching | FABZ HR International Inc.",
     description: "Career coaching from a senior HR leader: resume and LinkedIn audits, interview preparation, career transition planning and executive presence coaching."
   };
 

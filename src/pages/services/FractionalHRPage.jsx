@@ -5,7 +5,7 @@ const unsplash = (id) => `https://images.unsplash.com/photo-${id}?auto=format&fm
 
 const FractionalHRPage = () => {
   const seoContent = {
-    title: "Fractional HR Services | FABZ HR Consulting Canada",
+    title: "Fractional HR Services | FABZ HR International Inc.",
     description: "On-demand senior HR leadership for growing Canadian businesses: HR audits, policy design, employee relations and recruiting strategy, without a full-time hire."
   };
 

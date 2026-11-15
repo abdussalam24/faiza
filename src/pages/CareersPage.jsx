@@ -16,7 +16,7 @@ const CareersPage = () => {
   return (
     <>
       <Seo
-        title="Careers | FABZ HR Consulting Canada"
+        title="Careers | FABZ HR International Inc."
         description="Looking for a professional or leadership role in Canada? Share your profile with FABZ HR and we will reach out when the right opportunity comes up."
         path="/careers"
         jsonLd={breadcrumbSchema([{ name: 'Careers', path: '/careers' }])}
