@@ -46,6 +46,7 @@ const Footer = () => (
             <li><Link to="/about">About</Link></li>
             <li><Link to="/contact">Contact</Link></li>
             <li><Link to="/careers">Careers</Link></li>
+            <li><Link to="/hr-health-check">Free HR Health Check</Link></li>
             <li><Link to="/book-demo">Book a Consultation</Link></li>
           </ul>
         </nav>

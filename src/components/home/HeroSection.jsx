@@ -19,7 +19,7 @@ const HeroSection = () => (
           </p>
 
           <div className="hero-buttons cta-group rise-in rise-in-3">
-            <Link to="/book-demo" className="btn btn-primary btn-lg">
+            <Link to="/hr-health-check" className="btn btn-primary btn-lg">
               Book a Free HR Health Check <ArrowRight size={18} aria-hidden="true" />
             </Link>
             <a href="#services" className="btn btn-ghost-white btn-lg">

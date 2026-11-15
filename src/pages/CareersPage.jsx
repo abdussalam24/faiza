@@ -1,18 +1,14 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { Link } from 'react-router-dom';
 import { ArrowRight } from 'lucide-react';
 import AnimatedSection from '../components/ui/AnimatedSection';
 import PageHero from '../components/ui/PageHero';
 import Seo from '../components/seo/Seo';
 import { breadcrumbSchema } from '../components/seo/schema';
+import GoogleFormEmbed from '../components/forms/GoogleFormEmbed';
 import { CAREERS, SITE } from '../config/site';
 
 const CareersPage = () => {
-  // The iframe is mounted after hydration so its onLoad always fires (prerendered HTML shows the loader).
-  const [mounted, setMounted] = useState(false);
-  const [loaded, setLoaded] = useState(false);
-  useEffect(() => setMounted(true), []);
-
   return (
     <>
       <Seo
@@ -46,33 +42,14 @@ const CareersPage = () => {
       {/* Google Form */}
       <section className="careers-form-section" style={{ backgroundColor: 'var(--cream)' }} aria-labelledby="careers-form-title">
         <div className="container">
-          <div className="careers-form-card">
-            <h2 id="careers-form-title" className="careers-form-title">Share Your Profile</h2>
-            <div className="careers-iframe-wrap" aria-busy={!loaded}>
-              {!loaded && (
-                <div className="careers-loading" role="status">
-                  <span className="spinner" aria-hidden="true" />
-                  <span>Loading the application form…</span>
-                </div>
-              )}
-              {mounted && (
-                <iframe
-                  src={CAREERS.googleFormEmbedUrl}
-                  title="FABZ HR careers application form"
-                  className={`careers-iframe ${loaded ? 'is-loaded' : ''}`}
-                  loading="lazy"
-                  onLoad={() => setLoaded(true)}
-                >
-                  Loading…
-                </iframe>
-              )}
-              <noscript>
-                <p className="careers-noscript">
-                  <a className="text-link" href={CAREERS.googleFormPublicUrl}>Open the application form in Google Forms</a>
-                </p>
-              </noscript>
-            </div>
-          </div>
+          <GoogleFormEmbed
+            embedUrl={CAREERS.googleFormEmbedUrl}
+            publicUrl={CAREERS.googleFormPublicUrl}
+            title="FABZ HR careers application form"
+            heading="Share Your Profile"
+            headingId="careers-form-title"
+            loadingText="Loading the application form…"
+          />
 
           <p className="careers-fallback">
             Having trouble with the form? Email your resume to{' '}
@@ -120,58 +97,6 @@ const CareersPage = () => {
         .careers-form-section {
           padding-bottom: 5rem;
         }
-        .careers-form-card {
-          max-width: 860px;
-          margin: 0 auto;
-          background: var(--cream);
-          border: 1px solid var(--line);
-          border-top: 4px solid var(--lime);
-          border-radius: 16px;
-          box-shadow: var(--shadow-card);
-          padding: 2rem 1rem 1rem;
-        }
-        .careers-form-title {
-          font-size: clamp(24px, 3vw, 32px);
-          margin-bottom: 1rem;
-        }
-        .careers-iframe-wrap {
-          position: relative;
-          min-height: 1200px;
-        }
-        .careers-iframe {
-          display: block;
-          width: 100%;
-          min-height: 1200px;
-          height: 1200px;
-          border: 0;
-          opacity: 0;
-          transition: opacity 0.3s ease;
-          background: var(--cream);
-        }
-        .careers-iframe.is-loaded { opacity: 1; }
-        .careers-loading {
-          position: absolute;
-          inset: 0 0 auto 0;
-          padding-top: 6rem;
-          display: flex;
-          flex-direction: column;
-          align-items: center;
-          gap: 1rem;
-          color: var(--muted);
-          font-family: var(--font-heading);
-          font-weight: 600;
-        }
-        .spinner {
-          width: 44px;
-          height: 44px;
-          border-radius: 50%;
-          border: 4px solid var(--line);
-          border-top-color: var(--navy);
-          border-right-color: var(--lime);
-          animation: careers-spin 0.9s linear infinite;
-        }
-        @keyframes careers-spin { to { transform: rotate(360deg); } }
-        .careers-noscript { text-align: center; padding: 2rem; }
         .careers-fallback {
           text-align: center;
           margin: 2rem auto 0;
@@ -199,11 +124,6 @@ const CareersPage = () => {
         }
         .careers-cta p { color: var(--cream-80); }
         .careers-cta-actions { display: flex; gap: 1rem; flex-wrap: wrap; }
-        @media (max-width: 768px) {
-          .careers-form-card { padding: 1.5rem 0.25rem 0.5rem; border-radius: 12px; }
-          .careers-form-title { padding: 0 1rem; }
-          .careers-iframe, .careers-iframe-wrap { min-height: 1400px; height: 1400px; }
-        }
       ` }} />
     </>
   );

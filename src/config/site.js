@@ -72,6 +72,17 @@ export const CAREERS = {
 };
 
 /**
+ * Free HR Health Check page (/hr-health-check) — Google Form embed.
+ * Short link shared publicly: https://forms.gle/yupjpPDXUK7vQCp57
+ */
+export const HEALTH_CHECK = {
+  googleFormEmbedUrl:
+    'https://docs.google.com/forms/d/e/1FAIpQLSfQtxI9CiEzldNchL8oEuNIXUC6ZmEmb_lq50aOmrLzJcq7jw/viewform?embedded=true',
+  googleFormPublicUrl:
+    'https://docs.google.com/forms/d/e/1FAIpQLSfQtxI9CiEzldNchL8oEuNIXUC6ZmEmb_lq50aOmrLzJcq7jw/viewform',
+};
+
+/**
  * Discovery-call scheduler on /contact. Paste a Calendly or Cal.com link
  * (e.g. 'https://calendly.com/fabzhr/discovery-call') to replace the placeholder
  * with a live inline booking widget. Leave empty to show the placeholder card.

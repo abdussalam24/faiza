@@ -11,6 +11,7 @@ export const ROUTES = [
   { path: '/career-coaching', changefreq: 'monthly', priority: '0.9' },
   { path: '/about', changefreq: 'monthly', priority: '0.8' },
   { path: '/contact', changefreq: 'monthly', priority: '0.8' },
+  { path: '/hr-health-check', changefreq: 'monthly', priority: '0.8' },
   { path: '/book-demo', changefreq: 'monthly', priority: '0.7' },
   { path: '/careers', changefreq: 'monthly', priority: '0.6' },
   { path: '/privacy', changefreq: 'yearly', priority: '0.3' },

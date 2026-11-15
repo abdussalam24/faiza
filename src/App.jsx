@@ -15,6 +15,7 @@ import AboutPage from './pages/AboutPage';
 import BookDemoPage from './pages/BookDemoPage';
 import CareersPage from './pages/CareersPage';
 import ContactPage from './pages/ContactPage';
+import HRHealthCheckPage from './pages/HRHealthCheckPage';
 import ThankYouPage from './pages/ThankYouPage';
 import NotFoundPage from './pages/NotFoundPage';
 import PrivacyPage from './pages/legal/PrivacyPage';
@@ -44,6 +45,7 @@ function App() {
             <Route path="/about" element={<AboutPage />} />
             <Route path="/contact" element={<ContactPage />} />
             <Route path="/book-demo" element={<BookDemoPage />} />
+            <Route path="/hr-health-check" element={<HRHealthCheckPage />} />
             <Route path="/careers" element={<CareersPage />} />
             <Route path="/recruitment-executive-search" element={<RecruitmentPage />} />
             <Route path="/fractional-hr" element={<FractionalHRPage />} />
