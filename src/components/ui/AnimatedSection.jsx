@@ -1,23 +1,42 @@
-import React from 'react';
-import { motion } from 'framer-motion';
-import { useInView } from 'react-intersection-observer';
+import React, { useEffect, useRef, useState } from 'react';
 
-const AnimatedSection = ({ children, className = '', delay = 0 }) => {
-  const [ref, inView] = useInView({
-    triggerOnce: true,
-    threshold: 0.2,
-  });
+/**
+ * Fades children up when scrolled into view. CSS-driven (see animations.css):
+ * server-rendered HTML is fully visible; hiding only applies once JS runs.
+ */
+const AnimatedSection = ({ children, className = '', delay = 0, style, as: Tag = 'div', ...rest }) => {
+  const ref = useRef(null);
+  const [visible, setVisible] = useState(false);
+
+  useEffect(() => {
+    const node = ref.current;
+    if (!node) return undefined;
+    if (typeof IntersectionObserver === 'undefined') {
+      setVisible(true);
+      return undefined;
+    }
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setVisible(true);
+          observer.disconnect();
+        }
+      },
+      { threshold: 0.15, rootMargin: '0px 0px -40px 0px' }
+    );
+    observer.observe(node);
+    return () => observer.disconnect();
+  }, []);
 
   return (
-    <motion.div
+    <Tag
       ref={ref}
-      initial={{ opacity: 0, y: 30 }}
-      animate={inView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
-      transition={{ duration: 0.6, delay, ease: 'easeOut' }}
-      className={className}
+      className={`reveal ${visible ? 'is-visible' : ''} ${className}`.trim()}
+      style={{ ...style, transitionDelay: delay ? `${delay}s` : undefined }}
+      {...rest}
     >
       {children}
-    </motion.div>
+    </Tag>
   );
 };
 

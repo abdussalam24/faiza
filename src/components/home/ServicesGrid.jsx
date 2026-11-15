@@ -5,23 +5,25 @@ import AnimatedSection from '../ui/AnimatedSection';
 
 const servicesData = [
   {
-    title: 'Placing the right people in care roles',
-    category: 'CARE STAFFING',
-    image: 'https://images.unsplash.com/photo-1576765608535-5f04d1e3f289?w=600',
+    title: 'Thoughtful sourcing and selection, from brief to offer',
+    category: 'RECRUITMENT & EXECUTIVE SEARCH',
+    image: '/images/services/service-recruiter.webp',
+    alt: 'Recruiter speaking with a candidate',
     bullets: [
-      'Senior caregiver placement',
-      'Child care staffing',
-      'Background screening',
-      'Compliance & licensing',
-      'Managed staffing retainers'
+      'Role & success profile',
+      'Talent sourcing',
+      'Candidate assessment',
+      'Leadership search',
+      'Interview & offer support'
     ],
-    clients: 'families, facilities, daycares',
-    link: '/care-staffing'
+    clients: 'growing companies, SMBs, leadership teams',
+    link: '/recruitment-executive-search'
   },
   {
     title: 'On-demand HR leadership for SMBs',
     category: 'FRACTIONAL HR',
-    image: 'https://images.unsplash.com/photo-1521737711867-e3b97375f902?w=600',
+    image: '/images/services/service-hr-advisor.webp',
+    alt: 'HR advisor working with a leadership team',
     bullets: [
       'HR audits & policy design',
       'Recruiting strategy',
@@ -35,7 +37,8 @@ const servicesData = [
   {
     title: 'Moving talent across borders, compliantly',
     category: 'GLOBAL MOBILITY',
-    image: 'https://images.unsplash.com/photo-1436491865332-7a61a109cc05?w=600',
+    image: '/images/services/service-global-move.webp',
+    alt: 'Professional planning an international move',
     bullets: [
       'Visa & work permit support',
       'Relocation coordination',
@@ -49,7 +52,8 @@ const servicesData = [
   {
     title: 'Helping individuals own their career path',
     category: 'CAREER COACHING',
-    image: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=600',
+    image: '/images/services/service-career-coach.webp',
+    alt: 'Career coach and job seeker working together',
     bullets: [
       'Resume & LinkedIn audit',
       'Interview prep & coaching',
@@ -64,7 +68,7 @@ const servicesData = [
 
 const ServicesGrid = () => {
   return (
-    <section id="services" className="section-wrapper" style={{ backgroundColor: '#FFFFFF' }}>
+    <section id="services" className="section-wrapper" style={{ backgroundColor: 'var(--cream)' }}>
       <div className="container">
         <AnimatedSection className="text-center">
           <span className="section-label">WHAT WE OFFER</span>
@@ -76,18 +80,25 @@ const ServicesGrid = () => {
 
         <div className="services-grid">
           {servicesData.map((service, index) => (
-            <AnimatedSection key={index} delay={index * 0.1}>
+            <AnimatedSection key={service.link} delay={index * 0.1}>
               <Link to={service.link} className="card hover-card service-card">
                 <div className="card-image-wrapper">
-                  <img src={service.image} alt={service.title} className="card-image" />
-                  <div className="card-image-overlay"></div>
+                  <img
+                    src={service.image}
+                    alt={service.alt}
+                    width="1200"
+                    height="480"
+                    loading="lazy"
+                    decoding="async"
+                    className="card-image"
+                  />
                 </div>
                 <div className="card-content-wrapper">
                   <div className="card-category">{service.category}</div>
                   <h3 className="card-title">{service.title}</h3>
                   <ul className="card-bullets">
-                    {service.bullets.map((bullet, idx) => (
-                      <li key={idx}>{bullet}</li>
+                    {service.bullets.map((bullet) => (
+                      <li key={bullet}>{bullet}</li>
                     ))}
                   </ul>
                   <div className="card-divider"></div>
@@ -95,7 +106,7 @@ const ServicesGrid = () => {
                     <strong>Clients:</strong> {service.clients}
                   </div>
                   <div className="card-explore">
-                    Explore <ArrowRight size={16} />
+                    Explore <span className="sr-only">{service.category.toLowerCase()}</span> <ArrowRight size={16} aria-hidden="true" />
                   </div>
                 </div>
               </Link>
@@ -104,10 +115,7 @@ const ServicesGrid = () => {
         </div>
       </div>
 
-      <style>{`
-        .text-center {
-          text-align: center;
-        }
+      <style dangerouslySetInnerHTML={{ __html: `
         .services-grid {
           display: grid;
           grid-template-columns: repeat(2, 1fr);
@@ -124,7 +132,7 @@ const ServicesGrid = () => {
           flex-direction: column;
           height: 100%;
           text-decoration: none;
-          color: var(--text-primary);
+          color: var(--navy-80);
           overflow: hidden;
           padding: 0;
         }
@@ -132,27 +140,19 @@ const ServicesGrid = () => {
           position: relative;
           height: 220px;
           width: 100%;
+          border-bottom: 4px solid var(--lime);
         }
         .card-image {
           width: 100%;
           height: 100%;
           object-fit: cover;
           border-radius: 16px 16px 0 0;
+          transition: transform 0.4s ease;
         }
-        .card-image-overlay {
-          position: absolute;
-          top: 0;
-          left: 0;
-          width: 100%;
-          height: 100%;
-          background: linear-gradient(180deg, transparent 40%, rgba(232,70,26,0.35) 100%);
-          opacity: 0;
-          transition: opacity 0.3s ease;
-          border-radius: 16px 16px 0 0;
+        .service-card:hover .card-image {
+          transform: scale(1.03);
         }
-        .service-card:hover .card-image-overlay {
-          opacity: 1;
-        }
+        .card-image-wrapper { overflow: hidden; border-radius: 16px 16px 0 0; }
         .card-content-wrapper {
           padding: 2rem 1.5rem;
           display: flex;
@@ -161,12 +161,13 @@ const ServicesGrid = () => {
         }
         .card-category {
           display: inline-block;
-          color: var(--brand-orange);
+          color: var(--muted);
+          font-family: var(--font-heading);
           font-size: 0.75rem;
-          font-weight: 700;
-          letter-spacing: 12px;
+          font-weight: 800;
+          letter-spacing: 0.3em;
           text-transform: uppercase;
-          margin-bottom: 24px;
+          margin-bottom: 16px;
         }
         .card-title {
           font-size: 1.25rem;
@@ -183,38 +184,45 @@ const ServicesGrid = () => {
           position: relative;
           padding-left: 1.25rem;
           margin-bottom: 0.5rem;
-          font-size: 0.9rem;
-          color: var(--text-secondary);
+          font-size: 0.95rem;
+          color: var(--navy-80);
         }
         .card-bullets li::before {
-          content: '•';
+          content: '';
           position: absolute;
           left: 0;
-          color: var(--brand-orange);
-          font-weight: bold;
+          top: 0.6em;
+          width: 8px;
+          height: 8px;
+          border-radius: 50%;
+          background: var(--lime);
+          box-shadow: 0 0 0 1px var(--navy);
         }
         .card-divider {
           height: 1px;
-          background: linear-gradient(90deg, transparent, rgba(232,70,26,0.3), transparent);
+          background: var(--line);
           margin-bottom: 1rem;
-          border: none;
         }
         .card-clients {
-          font-size: 0.85rem;
-          color: var(--text-secondary);
+          font-size: 0.9rem;
+          color: var(--muted);
           margin-bottom: 1rem;
         }
+        .card-clients strong { color: var(--navy); }
         .card-explore {
           display: flex;
           align-items: center;
           gap: 0.5rem;
-          color: var(--text-primary);
-          font-weight: 600;
-          font-size: 0.9rem;
-          transition: color 0.2s;
+          color: var(--navy);
+          font-family: var(--font-heading);
+          font-weight: 800;
+          font-size: 0.95rem;
         }
         .service-card:hover .card-explore {
-          color: var(--brand-orange);
+          text-decoration: underline;
+          text-decoration-color: var(--lime);
+          text-decoration-thickness: 2px;
+          text-underline-offset: 4px;
         }
 
         @media (max-width: 768px) {
@@ -222,7 +230,7 @@ const ServicesGrid = () => {
             grid-template-columns: 1fr;
           }
         }
-      `}</style>
+      ` }} />
     </section>
   );
 };

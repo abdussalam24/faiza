@@ -1,9 +1,11 @@
 import React from 'react';
-import { Helmet } from 'react-helmet-async';
 import { Link } from 'react-router-dom';
 import AnimatedSection from '../components/ui/AnimatedSection';
-import SectionLabel from '../components/ui/SectionLabel';
+import PageHero from '../components/ui/PageHero';
 import ValuesSection from '../components/home/ValuesSection';
+import Seo from '../components/seo/Seo';
+import { breadcrumbSchema } from '../components/seo/schema';
+import { SITE } from '../config/site';
 
 const AboutPage = () => {
   const sectors = [
@@ -20,44 +22,56 @@ const AboutPage = () => {
     { country: 'Pakistan', flag: '🇵🇰', status: 'Coming Soon' },
   ];
 
+  const personSchema = {
+    '@context': 'https://schema.org',
+    '@type': 'Person',
+    name: 'Faiza Hussain',
+    jobTitle: 'Founder & Principal HR Consultant',
+    worksFor: { '@type': 'Organization', name: SITE.legalName, url: `${SITE.url}/` },
+    image: `${SITE.url}/faiza.webp`,
+    alumniOf: [
+      { '@type': 'CollegeOrUniversity', name: 'Institute of Business Management (IoBM)' },
+      { '@type': 'Organization', name: 'Pakistan Institute of Corporate Governance' },
+    ],
+  };
+
   return (
     <>
-      <Helmet>
-        <title>About Faiza Hussain | FABZ HR Consulting</title>
-        <meta name="description" content="Meet Faiza Hussain — 14+ years of HR expertise across Canada, financial, tech, aviation, healthcare sectors and more." />
-      </Helmet>
+      <Seo
+        title="About Faiza Hussain | FABZ HR Consulting"
+        description="Meet Faiza Hussain, founder of FABZ HR: 14+ years in HR, 6+ in leadership, across finance, tech, aviation, healthcare and more. Our mission, vision and values."
+        path="/about"
+        jsonLd={[breadcrumbSchema([{ name: 'About', path: '/about' }]), personSchema]}
+      />
 
-      {/* Hero Banner */}
-      <section className="page-hero">
-        <div className="container text-center">
-          <h1 className="page-title">About FABZ HR Consulting</h1>
-          <p className="page-subtitle">Built on experience. Driven by purpose.</p>
-          <div className="breadcrumb">
-            <Link to="/">Home</Link> / <span>About</span>
-          </div>
-        </div>
-      </section>
-      <div className="gradient-divider"></div>
+      <PageHero
+        title="About FABZ HR Consulting"
+        subtitle="Built on experience. Driven by purpose."
+        breadcrumbs={[{ name: 'About' }]}
+      />
 
       {/* Founder Story */}
-      <section className="section-wrapper" style={{ backgroundColor: '#FFFFFF' }}>
+      <section className="section-wrapper" style={{ backgroundColor: 'var(--cream)' }}>
         <div className="container">
           <div className="founder-story-grid">
             <AnimatedSection className="founder-image-col">
               <div className="founder-image-wrapper">
                 <img
-                  src="/faiza.png"
-                  alt="Faiza Hussain"
+                  src="/faiza.webp"
+                  alt="Portrait of Faiza Hussain, founder of FABZ HR"
+                  width="720"
+                  height="720"
+                  decoding="async"
                   className="founder-image"
                 />
-                <div className="founder-image-border"></div>
+                <div className="founder-image-border" aria-hidden="true"></div>
               </div>
             </AnimatedSection>
 
             <AnimatedSection className="founder-text-col" delay={0.2}>
               <span className="section-label">MEET THE FOUNDER</span>
               <h2 className="founder-name">Faiza Hussain</h2>
-              <h3 className="founder-role">Founder & Principal HR Consultant</h3>
+              <p className="founder-role">Founder & Principal HR Consultant</p>
 
               <div className="founder-bio section-subtext" style={{ marginLeft: 0, textAlign: 'left' }}>
                 <p>Faiza Hussain brings over 14 years of diverse experience, with more than 6 years in leadership capacity, in establishing and revitalizing HR operations to achieve organizational objectives.</p>
@@ -67,18 +81,18 @@ const AboutPage = () => {
                 <p style={{ marginTop: '16px' }}>Her expertise spans: setting up and revamping HR offices, deploying HR systems, revising and implementing policies, ensuring corporate governance, handling employee grievances, HR consulting and auditing, and driving employee engagement through digital marketing.</p>
               </div>
 
-              <div className="founder-badges" style={{ display: 'flex', gap: '1rem', flexWrap: 'wrap', marginTop: '2rem' }}>
-                <span className="badge" style={{ padding: '0.5rem 1rem', borderRadius: '30px', border: '1px solid var(--brand-orange)', fontSize: '0.85rem', fontWeight: '600', transition: 'all 0.2s ease', cursor: 'default' }}>Director's Training (PICG 2023)</span>
-                <span className="badge" style={{ padding: '0.5rem 1rem', borderRadius: '30px', border: '1px solid var(--brand-orange)', fontSize: '0.85rem', fontWeight: '600', transition: 'all 0.2s ease', cursor: 'default' }}>EMBA HR & Marketing (IoBM 2019)</span>
-                <span className="badge" style={{ padding: '0.5rem 1rem', borderRadius: '30px', border: '1px solid var(--brand-orange)', fontSize: '0.85rem', fontWeight: '600', transition: 'all 0.2s ease', cursor: 'default' }}>BBA HR (Toronto 2011)</span>
-              </div>
+              <ul className="founder-badges">
+                <li className="badge">Director's Training (PICG 2023)</li>
+                <li className="badge">EMBA HR & Marketing (IoBM 2019)</li>
+                <li className="badge">BBA HR (Toronto 2011)</li>
+              </ul>
             </AnimatedSection>
           </div>
         </div>
       </section>
 
       {/* Stats Bar */}
-      <section className="stats-bar">
+      <section className="stats-bar" aria-label="FABZ HR in numbers">
         <div className="container">
           <div className="stats-grid">
             <AnimatedSection className="stat-item" delay={0.1}>
@@ -101,92 +115,93 @@ const AboutPage = () => {
         </div>
       </section>
 
-      {/* Values Section */}
-      <ValuesSection />
+      {/* Who we are + Mission & Vision (wording from www.fabzhr.com) */}
+      <section className="section-wrapper" style={{ backgroundColor: 'var(--surface-alt)' }} aria-labelledby="purpose-title">
+        <div className="container">
+          <AnimatedSection className="about-intro">
+            <span className="section-label">ABOUT US</span>
+            <h2 id="purpose-title" className="about-intro-title">People-centered support with a global outlook.</h2>
+            <p className="registration-line">{SITE.registrationSentence}</p>
+            <p>We support organizations and professionals through recruitment and executive search, fractional HR, global mobility and career coaching. As we grow across borders, we remain grounded in clear guidance, practical action, and respect for every person we meet.</p>
+          </AnimatedSection>
+
+          <div className="purpose-grid">
+            <AnimatedSection className="purpose-panel">
+              <span>OUR MISSION</span>
+              <h3>Connections that drive lasting growth.</h3>
+              <p>Our mission is to help organizations build strong teams and professionals pursue meaningful careers through personalized HR solutions. We connect talent with opportunity, offer practical guidance, and deliver service that supports lasting growth across the workforce.</p>
+            </AnimatedSection>
+            <AnimatedSection className="purpose-panel" delay={0.1}>
+              <span>OUR VISION</span>
+              <h3>A more open world of work.</h3>
+              <p>We envision a future where organizations can find and develop the people who move them forward, and professionals can pursue meaningful careers wherever opportunity takes them. FABZ HR aims to be a trusted global partner, recognized for thoughtful and innovative people solutions.</p>
+            </AnimatedSection>
+          </div>
+        </div>
+      </section>
+
+      {/* Core values */}
+      <ValuesSection
+        label="WHAT GUIDES US"
+        title="Our Core Values"
+        subtitle="Guided by People. Grounded in Trust. The standards behind every conversation and commitment."
+      />
 
       {/* Sector Expertise */}
-      <section className="section-wrapper" style={{ backgroundColor: '#FFFFFF' }}>
+      <section className="section-wrapper" style={{ backgroundColor: 'var(--surface-alt)' }}>
         <div className="container text-center">
           <AnimatedSection style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-            <h2 className="gradient-heading" style={{ fontSize: '2.5rem', marginBottom: '2.5rem' }}>Across Every Industry That Matters</h2>
-            <div className="sector-cloud">
-              {sectors.map((sector, idx) => (
-                <span key={idx} className="sector-pill">{sector}</span>
+            <h2 className="gradient-heading" style={{ fontSize: 'clamp(28px, 3.4vw, 40px)', marginBottom: '2.5rem' }}>Across Every Industry That Matters</h2>
+            <ul className="sector-cloud">
+              {sectors.map((sector) => (
+                <li key={sector} className="sector-pill">{sector}</li>
               ))}
-            </div>
+            </ul>
           </AnimatedSection>
         </div>
       </section>
 
       {/* Global Reach */}
-      <section className="section-wrapper" style={{ backgroundColor: '#FFF8F5' }}>
+      <section className="section-wrapper" style={{ backgroundColor: 'var(--cream)' }}>
         <div className="container text-center">
           <AnimatedSection style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-            <h2 className="gradient-heading" style={{ fontSize: '2.5rem', marginBottom: '2.5rem' }}>Where We Serve</h2>
-            <div className="reach-grid">
-              {locations.map((loc, idx) => (
-                <div key={idx} className={`reach-card ${loc.status === 'Active' ? 'active' : ''}`}>
-                  <div className="reach-flag">{loc.flag}</div>
+            <h2 className="gradient-heading" style={{ fontSize: 'clamp(28px, 3.4vw, 40px)', marginBottom: '2.5rem' }}>Where We Serve</h2>
+            <ul className="reach-grid">
+              {locations.map((loc) => (
+                <li key={loc.country} className={`reach-card ${loc.status === 'Active' ? 'active' : ''}`}>
+                  <div className="reach-flag" aria-hidden="true">{loc.flag}</div>
                   <h3 className="reach-country">{loc.country}</h3>
                   <div className={`reach-status ${loc.status === 'Active' ? 'status-active' : 'status-pending'}`}>
                     {loc.status}
                   </div>
-                </div>
+                </li>
               ))}
-            </div>
+            </ul>
           </AnimatedSection>
         </div>
       </section>
 
       {/* CTA */}
-      <section className="section-wrapper" style={{ backgroundColor: '#FFFFFF' }}>
+      <section className="section-wrapper about-cta on-navy">
         <div className="container">
           <AnimatedSection style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', textAlign: 'center' }}>
-            <h2 style={{ fontSize: '2.5rem', marginBottom: '1.5rem', color: '#0D1421' }}>Ready to Work with an HR Partner You Can Trust?</h2>
+            <h2 style={{ fontSize: 'clamp(28px, 3.4vw, 40px)', marginBottom: '1.5rem', color: 'var(--cream)' }}>Ready to Work with an HR Partner You Can Trust?</h2>
             <Link to="/book-demo" className="btn btn-primary btn-lg">Book a Discovery Call →</Link>
           </AnimatedSection>
         </div>
       </section>
 
-      <style>{`
-        .page-hero {
-          background-color: #FFF8F5;
-          border-bottom: 1px solid #E5E7EB;
-          padding: 6rem 0;
-        }
-        
-        .page-title {
-          font-size: 3rem;
-          margin-bottom: 0.5rem;
-          color: #0D1421;
-        }
-        .page-subtitle {
-          font-size: 1.25rem;
-          color: #6B7280;
-          margin-bottom: 1.5rem;
-        }
-        .breadcrumb {
-          font-size: 0.95rem;
-          color: #9CA3AF;
-        }
-        .breadcrumb a {
-          color: #374151;
-          transition: color 0.2s;
-        }
-        .breadcrumb a:hover {
-          color: var(--brand-orange);
-        }
-
+      <style dangerouslySetInnerHTML={{ __html: `
         .founder-story-grid {
           display: flex;
           gap: 5rem;
           align-items: flex-start;
         }
         .founder-image-col {
-          flex: 0 0 40%;
+          flex: 0 0 38%;
         }
         .founder-text-col {
-          flex: 0 0 60%;
+          flex: 1;
         }
         .founder-image-wrapper {
           position: relative;
@@ -206,28 +221,46 @@ const AboutPage = () => {
           left: -20px;
           right: 20px;
           bottom: 20px;
-          border: 2px solid var(--brand-orange);
+          border: 3px solid var(--lime);
           border-radius: 16px;
           z-index: 1;
         }
-
         .founder-name {
-          font-family: var(--font-heading);
-          font-size: 3rem;
-          color: var(--brand-orange);
-          margin-bottom: 0.25rem;
+          font-size: clamp(36px, 4vw, 48px);
+          color: var(--navy);
+          margin: 0 0 0.25rem;
+          text-align: left;
         }
         .founder-role {
+          font-family: var(--font-heading);
           font-size: 1.25rem;
-          color: var(--text-heading);
-          font-weight: 500;
+          color: var(--muted);
+          font-weight: 600;
           margin-bottom: 2rem;
+        }
+        .founder-badges {
+          list-style: none;
+          display: flex;
+          gap: 1rem;
+          flex-wrap: wrap;
+          margin-top: 2rem;
+        }
+        .badge {
+          background-color: var(--cream);
+          border: 1.5px solid var(--navy);
+          padding: 0.5rem 1rem;
+          border-radius: 30px;
+          font-family: var(--font-heading);
+          font-size: 0.85rem;
+          font-weight: 700;
+          color: var(--navy);
         }
 
         .stats-bar {
-          background-color: var(--brand-orange);
+          background-color: var(--navy);
+          border-top: 4px solid var(--lime);
           padding: 4rem 0;
-          color: white;
+          color: var(--cream);
         }
         .stats-grid {
           display: grid;
@@ -238,17 +271,61 @@ const AboutPage = () => {
         .stat-number {
           font-family: var(--font-heading);
           font-size: 3.5rem;
-          font-weight: 700;
+          font-weight: 800;
           line-height: 1;
           margin-bottom: 0.5rem;
+          color: var(--lime);
         }
         .stat-label {
           font-size: 1.1rem;
           font-weight: 500;
-          opacity: 0.9;
+          color: var(--cream-80);
         }
 
+        .about-intro {
+          max-width: 820px;
+          margin-bottom: 3rem;
+        }
+        .about-intro-title {
+          text-align: left;
+          margin: 0 0 1rem;
+          font-size: clamp(28px, 3.4vw, 40px);
+        }
+        .about-intro p { color: var(--navy-80); font-size: 1.05rem; margin-bottom: 0.75rem; }
+        .registration-line {
+          font-family: var(--font-heading);
+          font-weight: 700;
+          color: var(--navy) !important;
+          border-left: 3px solid var(--lime);
+          padding-left: 10px;
+        }
+        .purpose-grid {
+          display: grid;
+          grid-template-columns: 1fr 1fr;
+          gap: 1.5rem;
+        }
+        .purpose-panel {
+          background: var(--cream);
+          border: 1px solid var(--line);
+          border-top: 4px solid var(--lime);
+          border-radius: 12px;
+          padding: 2rem;
+        }
+        .purpose-panel > span {
+          font-family: var(--font-heading);
+          font-size: 0.75rem;
+          font-weight: 800;
+          letter-spacing: 0.16em;
+          color: var(--muted);
+        }
+        .purpose-panel h3 {
+          font-size: 1.5rem;
+          margin: 0.9rem 0 0.75rem;
+        }
+        .purpose-panel p { color: var(--navy-80); line-height: 1.7; }
+
         .sector-cloud {
+          list-style: none;
           display: flex;
           flex-wrap: wrap;
           justify-content: center;
@@ -257,37 +334,38 @@ const AboutPage = () => {
           margin: 0 auto;
         }
         .sector-pill {
-          background-color: #FFFFFF;
-          border: 1px solid var(--brand-orange);
+          background-color: var(--cream);
+          border: 1.5px solid var(--navy);
           padding: 0.75rem 1.5rem;
           border-radius: 30px;
           font-size: 1.05rem;
-          transition: all 0.2s ease;
+          transition: background-color 0.2s ease, color 0.2s ease;
           cursor: default;
-          color: #0D1421;
+          color: var(--navy);
         }
-        .sector-pill:hover, .badge:hover {
-          background-color: var(--brand-orange);
-          color: white;
+        .sector-pill:hover {
+          background-color: var(--navy);
+          color: var(--cream);
         }
 
         .reach-grid {
+          list-style: none;
           display: flex;
           justify-content: center;
           flex-wrap: wrap;
           gap: 1.5rem;
         }
         .reach-card {
-          background-color: #FFFFFF;
-          border: 1px solid #E5E7EB;
+          background-color: var(--cream);
+          border: 1px solid var(--line);
           border-radius: 16px;
           padding: 2rem;
           min-width: 200px;
           transition: transform 0.2s, border-color 0.2s, box-shadow 0.2s;
         }
         .reach-card.active {
-          border-color: var(--brand-orange);
-          box-shadow: 0 4px 20px rgba(232,92,26,0.1);
+          border: 2px solid var(--navy);
+          box-shadow: var(--shadow-card);
         }
         .reach-card:hover {
           transform: translateY(-4px);
@@ -298,23 +376,27 @@ const AboutPage = () => {
         }
         .reach-country {
           font-size: 1.25rem;
-          color: #0D1421;
+          color: var(--navy);
           margin-bottom: 0.5rem;
         }
         .reach-status {
+          font-family: var(--font-heading);
           font-size: 0.85rem;
-          font-weight: 600;
+          font-weight: 700;
           padding: 0.25rem 0.75rem;
           border-radius: 20px;
           display: inline-block;
         }
         .status-active {
-          background-color: rgba(45, 212, 191, 0.1);
-          color: var(--accent-teal);
+          background-color: var(--lime);
+          color: var(--navy);
         }
         .status-pending {
-          background-color: #F3F4F6;
-          color: var(--text-secondary);
+          background-color: var(--surface-alt);
+          color: var(--muted);
+        }
+        .about-cta {
+          background: var(--navy);
         }
 
         @media (max-width: 992px) {
@@ -330,6 +412,7 @@ const AboutPage = () => {
             text-align: center;
             width: 100%;
           }
+          .founder-name { text-align: center; }
           .founder-bio {
             text-align: center !important;
             margin-left: auto !important;
@@ -341,6 +424,7 @@ const AboutPage = () => {
           .stats-grid {
             grid-template-columns: repeat(2, 1fr);
           }
+          .purpose-grid { grid-template-columns: 1fr; }
         }
         @media (max-width: 768px) {
           .founder-image-col {
@@ -350,15 +434,12 @@ const AboutPage = () => {
             width: 100%;
             max-height: 320px;
             object-fit: cover;
+            object-position: top;
             aspect-ratio: auto;
           }
+          .stat-number { font-size: 2.5rem; }
         }
-        @media (max-width: 576px) {
-          .stats-grid {
-            grid-template-columns: repeat(2, 1fr);
-          }
-        }
-      `}</style>
+      ` }} />
     </>
   );
 };

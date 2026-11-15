@@ -1,63 +1,60 @@
 import React, { useState, useEffect } from 'react';
 import { ArrowUp } from 'lucide-react';
-import { motion, AnimatePresence } from 'framer-motion';
 
+/** Back-to-top button. Sits above the chat launcher (bottom-right). */
 const ScrollToTop = () => {
   const [isVisible, setIsVisible] = useState(false);
 
   useEffect(() => {
-    const toggleVisibility = () => {
-      if (window.scrollY > 400) {
-        setIsVisible(true);
-      } else {
-        setIsVisible(false);
-      }
-    };
-
-    window.addEventListener('scroll', toggleVisibility);
+    const toggleVisibility = () => setIsVisible(window.scrollY > 400);
+    toggleVisibility();
+    window.addEventListener('scroll', toggleVisibility, { passive: true });
     return () => window.removeEventListener('scroll', toggleVisibility);
   }, []);
 
-  const scrollToTop = () => {
-    window.scrollTo({
-      top: 0,
-      behavior: 'smooth',
-    });
-  };
-
   return (
-    <AnimatePresence>
-      {isVisible && (
-        <motion.button
-          onClick={scrollToTop}
-          initial={{ opacity: 0, scale: 0.5 }}
-          animate={{ opacity: 1, scale: 1 }}
-          exit={{ opacity: 0, scale: 0.5 }}
-          whileHover={{ scale: 1.1 }}
-          whileTap={{ scale: 0.9 }}
-          style={{
-            position: 'fixed',
-            bottom: '2rem',
-            right: '2rem',
-            width: '50px',
-            height: '50px',
-            borderRadius: '50%',
-            backgroundColor: 'var(--brand-orange)',
-            color: 'white',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            boxShadow: '0 4px 12px rgba(232, 92, 26, 0.4)',
-            zIndex: 999,
-            cursor: 'pointer',
-            border: 'none',
-          }}
-          aria-label="Scroll to top"
-        >
-          <ArrowUp size={24} />
-        </motion.button>
-      )}
-    </AnimatePresence>
+    <>
+      <button
+        type="button"
+        className={`scroll-top ${isVisible ? 'is-visible' : ''}`}
+        onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+        aria-label="Scroll to top"
+        tabIndex={isVisible ? 0 : -1}
+        aria-hidden={!isVisible}
+      >
+        <ArrowUp size={22} aria-hidden="true" />
+      </button>
+      <style dangerouslySetInnerHTML={{ __html: `
+        .scroll-top {
+          position: fixed;
+          right: clamp(14px, 2vw, 30px);
+          bottom: calc(clamp(14px, 2vw, 26px) + 64px);
+          width: 48px;
+          height: 48px;
+          border-radius: 50%;
+          background-color: var(--cream);
+          color: var(--navy);
+          border: 1.5px solid var(--navy);
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          box-shadow: 0 4px 12px var(--navy-12);
+          z-index: 998;
+          opacity: 0;
+          transform: scale(0.6);
+          pointer-events: none;
+          transition: opacity 0.25s ease, transform 0.25s ease, background-color 0.2s;
+        }
+        .scroll-top.is-visible {
+          opacity: 1;
+          transform: scale(1);
+          pointer-events: auto;
+        }
+        .scroll-top:hover {
+          background-color: var(--lime);
+        }
+      ` }} />
+    </>
   );
 };
 

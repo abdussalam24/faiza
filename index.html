@@ -1,36 +1,20 @@
 <!doctype html>
-<html lang="en">
+<html lang="en-CA">
   <head>
     <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <!-- Google Fonts: Playfair Display + Manrope -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700;800&family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600&family=Syne:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-    <title>FABZ HR Consulting</title>
-    <!-- Schema.org ProfessionalService JSON-LD -->
-    <script type="application/ld+json">
-      {
-        "@context": "https://schema.org",
-        "@type": "ProfessionalService",
-        "name": "FABZ HR Consulting",
-        "founder": {
-          "@type": "Person",
-          "name": "Faiza Hussain"
-        },
-        "url": "https://fabzconsulting.ca",
-        "address": {
-          "@type": "PostalAddress",
-          "addressCountry": "CA"
-        },
-        "description": "FABZ HR Consulting partners with businesses, families, and individuals to deliver expert HR solutions.",
-        "slogan": "Trust · Respect · Transparency · Accountability"
-      }
-    </script>
+    <meta name="theme-color" content="#0b2030" />
+    <script>document.documentElement.classList.add('js')</script>
+    <link rel="icon" href="/favicon.ico" sizes="any" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <!-- Brand fonts (self-hosted, see global.css): Manrope (headings, nav, buttons, labels) + DM Sans (body) -->
+    <link rel="preload" href="/fonts/manrope-latin.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href="/fonts/dm-sans-latin.woff2" as="font" type="font/woff2" crossorigin />
+    <!--app-head-->
   </head>
   <body>
-    <div id="root"></div>
+    <div id="root"><!--app-html--></div>
     <script type="module" src="/src/main.jsx"></script>
   </body>
 </html>

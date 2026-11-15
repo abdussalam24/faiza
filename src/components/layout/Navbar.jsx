@@ -1,140 +1,233 @@
-import React, { useState, useEffect } from 'react';
-import { Link, useLocation } from 'react-router-dom';
-import { Menu, X, ChevronDown } from 'lucide-react';
+import React, { useState, useEffect, useRef, useCallback } from 'react';
+import { Link, NavLink, useLocation } from 'react-router-dom';
+import { Menu, X, ChevronDown, ArrowRight } from 'lucide-react';
+import Logo from './Logo';
+import { SERVICES } from '../../data/services';
+import { SITE } from '../../config/site';
 
 const Navbar = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const [servicesDropdownOpen, setServicesDropdownOpen] = useState(false);
+  const [servicesOpen, setServicesOpen] = useState(false);
   const location = useLocation();
+  const servicesBtnRef = useRef(null);
+  const dropdownRef = useRef(null);
+  const menuToggleRef = useRef(null);
+  const overlayRef = useRef(null);
+
+  const isServiceRoute = SERVICES.some((s) => location.pathname.startsWith(s.path));
 
   useEffect(() => {
-    const handleScroll = () => {
-      setIsScrolled(window.scrollY > 60);
-    };
-    window.addEventListener('scroll', handleScroll);
+    const handleScroll = () => setIsScrolled(window.scrollY > 10);
+    handleScroll();
+    window.addEventListener('scroll', handleScroll, { passive: true });
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  // Close mobile menu on route change
+  // Close menus on route change
   useEffect(() => {
     setMobileMenuOpen(false);
-    setServicesDropdownOpen(false);
+    setServicesOpen(false);
   }, [location.pathname]);
 
-  const services = [
-    { name: 'Care Staffing', path: '/care-staffing' },
-    { name: 'Fractional HR', path: '/fractional-hr' },
-    { name: 'Global Mobility', path: '/global-mobility' },
-    { name: 'Career Coaching', path: '/career-coaching' },
-  ];
+  const closeMobile = useCallback(() => {
+    setMobileMenuOpen(false);
+    menuToggleRef.current?.focus();
+  }, []);
+
+  // Mobile overlay: lock scroll, focus first link, Escape closes, keep focus inside.
+  useEffect(() => {
+    if (!mobileMenuOpen) return undefined;
+    const prevOverflow = document.body.style.overflow;
+    document.body.style.overflow = 'hidden';
+    const focusables = () =>
+      overlayRef.current ? [...overlayRef.current.querySelectorAll('a[href], button:not([disabled])')] : [];
+    focusables()[0]?.focus();
+    const onKey = (e) => {
+      if (e.key === 'Escape') closeMobile();
+      if (e.key === 'Tab') {
+        const els = focusables();
+        if (!els.length) return;
+        const first = els[0];
+        const last = els[els.length - 1];
+        if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus(); }
+        else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
+      }
+    };
+    document.addEventListener('keydown', onKey);
+    return () => {
+      document.body.style.overflow = prevOverflow;
+      document.removeEventListener('keydown', onKey);
+    };
+  }, [mobileMenuOpen, closeMobile]);
+
+  // Desktop dropdown: Escape closes and returns focus; click outside closes.
+  useEffect(() => {
+    if (!servicesOpen) return undefined;
+    const onKey = (e) => {
+      if (e.key === 'Escape') {
+        setServicesOpen(false);
+        servicesBtnRef.current?.focus();
+      }
+    };
+    const onClick = (e) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(e.target)) setServicesOpen(false);
+    };
+    document.addEventListener('keydown', onKey);
+    document.addEventListener('mousedown', onClick);
+    return () => {
+      document.removeEventListener('keydown', onKey);
+      document.removeEventListener('mousedown', onClick);
+    };
+  }, [servicesOpen]);
+
+  const onDropdownBlur = (e) => {
+    if (!dropdownRef.current?.contains(e.relatedTarget)) setServicesOpen(false);
+  };
+
+  const onDropdownKeyDown = (e) => {
+    if (e.key === 'ArrowDown') {
+      e.preventDefault();
+      setServicesOpen(true);
+      requestAnimationFrame(() => dropdownRef.current?.querySelector('.dropdown-item')?.focus());
+    }
+  };
+
+  const navClass = ({ isActive }) => `nav-link ${isActive ? 'active' : ''}`;
 
   return (
-    <nav className={`navbar ${isScrolled ? 'scrolled' : ''}`}>
+    <header className={`navbar ${isScrolled ? 'scrolled' : ''}`}>
       <div className="container nav-container">
-        <Link to="/" className="logo">
-          <img src="/logo.png" alt="Fabz HR Logo" className="logo-img" />
-          <span className="logo-text">Fabz HR</span>
+        <Link to="/" className="logo" aria-label={`${SITE.legalName} — home`}>
+          <Logo variant="color" height={72} className="logo-img" priority />
         </Link>
 
         {/* Desktop Nav */}
-        <div className="desktop-nav">
-          <Link to="/" className={`nav-link ${location.pathname === '/' ? 'active' : ''}`}>Home</Link>
-          
-          <div 
+        <nav className="desktop-nav" aria-label="Main">
+          <NavLink to="/" end className={navClass}>Home</NavLink>
+
+          <div
             className="dropdown-container"
-            onMouseEnter={() => setServicesDropdownOpen(true)}
-            onMouseLeave={() => setServicesDropdownOpen(false)}
+            ref={dropdownRef}
+            onMouseEnter={() => setServicesOpen(true)}
+            onMouseLeave={() => setServicesOpen(false)}
+            onBlur={onDropdownBlur}
+            onKeyDown={onDropdownKeyDown}
           >
-            <button className={`nav-link ${location.pathname.includes('service') || location.pathname.includes('fractional') || location.pathname.includes('coaching') || location.pathname.includes('staffing') || location.pathname.includes('mobility') ? 'active' : ''}`} style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
-              Services <ChevronDown size={16} />
+            <button
+              ref={servicesBtnRef}
+              type="button"
+              className={`nav-link nav-dropdown-toggle ${isServiceRoute ? 'active' : ''}`}
+              aria-expanded={servicesOpen}
+              aria-controls="services-menu"
+              onClick={() => setServicesOpen((o) => !o)}
+            >
+              Services <ChevronDown size={16} aria-hidden="true" className={`chev ${servicesOpen ? 'open' : ''}`} />
             </button>
-            {servicesDropdownOpen && (
-              <div className="dropdown-menu">
-                {services.map((service) => (
-                  <Link key={service.name} to={service.path} className="dropdown-item">
+            <ul id="services-menu" className="dropdown-menu" hidden={!servicesOpen}>
+              {SERVICES.map((service) => (
+                <li key={service.path}>
+                  <NavLink to={service.path} className="dropdown-item">
                     {service.name}
-                  </Link>
-                ))}
-              </div>
-            )}
+                  </NavLink>
+                </li>
+              ))}
+            </ul>
           </div>
 
-          <Link to="/careers" className={`nav-link ${location.pathname === '/careers' ? 'active' : ''}`}>Careers</Link>
-          <Link to="/about" className={`nav-link ${location.pathname === '/about' ? 'active' : ''}`}>About</Link>
-          <Link to="/contact" className={`nav-link ${location.pathname === '/contact' ? 'active' : ''}`}>Contact</Link>
-        </div>
-
-        <div className="nav-actions desktop-nav">
-          <Link to="/book-demo" className="btn btn-primary">Book a Consultant</Link>
-        </div>
+          <NavLink to="/about" className={navClass}>About</NavLink>
+          <NavLink to="/contact" className={navClass}>Contact</NavLink>
+          <Link to="/book-demo" className="btn btn-primary nav-cta">Book a Consultation</Link>
+        </nav>
 
         {/* Mobile Toggle */}
-        <div className="mobile-toggle">
-          <button className="hamburger" onClick={() => setMobileMenuOpen(!mobileMenuOpen)} aria-label="Menu">
-            {mobileMenuOpen ? <X size={28} /> : <Menu size={28} />}
+        <button
+          ref={menuToggleRef}
+          type="button"
+          className="hamburger"
+          onClick={() => setMobileMenuOpen(true)}
+          aria-label="Open menu"
+          aria-expanded={mobileMenuOpen}
+          aria-controls="mobile-menu"
+        >
+          <Menu size={28} aria-hidden="true" />
+        </button>
+      </div>
+
+      {/* Mobile full-screen overlay */}
+      <div
+        id="mobile-menu"
+        ref={overlayRef}
+        className={`mobile-menu ${mobileMenuOpen ? 'open' : ''}`}
+        role="dialog"
+        aria-modal="true"
+        aria-label="Site menu"
+        hidden={!mobileMenuOpen}
+      >
+        <div className="mobile-menu-head">
+          <Logo variant="color" height={50} />
+          <button type="button" className="hamburger mobile-close" onClick={closeMobile} aria-label="Close menu">
+            <X size={30} aria-hidden="true" />
           </button>
+        </div>
+        <nav className="mobile-menu-body" aria-label="Mobile">
+          <NavLink to="/" end className={({ isActive }) => `mobile-link ${isActive ? 'active' : ''}`}>Home</NavLink>
+          <p className="mobile-services-label" id="mobile-services-label">Services</p>
+          <ul aria-labelledby="mobile-services-label" className="mobile-services">
+            {SERVICES.map((service) => (
+              <li key={service.path}>
+                <NavLink to={service.path} className={({ isActive }) => `mobile-link nested ${isActive ? 'active' : ''}`}>
+                  {service.name}
+                </NavLink>
+              </li>
+            ))}
+          </ul>
+          <NavLink to="/about" className={({ isActive }) => `mobile-link ${isActive ? 'active' : ''}`}>About</NavLink>
+          <NavLink to="/contact" className={({ isActive }) => `mobile-link ${isActive ? 'active' : ''}`}>Contact</NavLink>
+        </nav>
+        <div className="mobile-menu-foot">
+          <Link to="/book-demo" className="btn btn-primary btn-full btn-lg">
+            Book a Consultation <ArrowRight size={18} aria-hidden="true" />
+          </Link>
+          <p className="mobile-contact">
+            <a href={`tel:${SITE.phone.href}`}>{SITE.phone.display}</a>
+            <a href={`mailto:${SITE.email}`}>{SITE.email}</a>
+          </p>
         </div>
       </div>
 
-      {/* Mobile Menu Drawer */}
-      {mobileMenuOpen && (
-        <div className="mobile-menu">
-          <Link to="/" className={`mobile-link ${location.pathname === '/' ? 'active' : ''}`}>Home</Link>
-          
-          <div className="mobile-services-label">Services</div>
-          {services.map((service) => (
-            <Link key={service.name} to={service.path} className="mobile-link nested">
-              {service.name}
-            </Link>
-          ))}
-          
-          <Link to="/careers" className={`mobile-link ${location.pathname === '/careers' ? 'active' : ''}`}>Careers</Link>
-          <Link to="/about" className={`mobile-link ${location.pathname === '/about' ? 'active' : ''}`}>About</Link>
-          <Link to="/contact" className={`mobile-link ${location.pathname === '/contact' ? 'active' : ''}`}>Contact</Link>
-          
-          <Link to="/book-demo" className="btn btn-primary" style={{ marginTop: '1rem', width: '100%' }}>Book a Consultant</Link>
-        </div>
-      )}
-
-      <style>{`
+      <style dangerouslySetInnerHTML={{ __html: `
         .navbar {
           position: sticky;
           top: 0;
           z-index: 1000;
-          background-color: #FFFFFF;
-          border-bottom: 1px solid #E5E7EB;
-          transition: background-color 0.3s ease, box-shadow 0.3s ease;
-          padding: 1rem 0;
+          /* Light header, as on www.fabzhr.com, so the full-colour logo reads correctly */
+          background-color: var(--cream);
+          border-bottom: 1px solid var(--line);
+          transition: box-shadow 0.3s ease, padding 0.3s ease;
+          padding: 0.7rem 0;
         }
         .navbar.scrolled {
-          background-color: #FFFFFF;
-          box-shadow: 0 4px 20px rgba(0,0,0,0.08);
-          padding: 0.75rem 0;
+          box-shadow: 0 6px 24px var(--navy-12);
+          padding: 0.45rem 0;
         }
         .nav-container {
           display: flex;
           justify-content: space-between;
           align-items: center;
+          gap: 1.5rem;
         }
         .logo {
           display: flex;
           align-items: center;
-          gap: 12px;
-          text-decoration: none;
+          flex-shrink: 0;
         }
         .logo-img {
-          height: 48px;
-          width: auto;
           display: block;
-          filter: drop-shadow(0 2px 8px rgba(232, 70, 26, 0.35));
+          transition: height 0.3s ease;
         }
-        .logo-text {
-          font-family: 'Syne', sans-serif;
-          font-size: 22px;
-          font-weight: 700;
-          color: #0D1421;
-          letter-spacing: 0.5px;
+        .navbar.scrolled .logo-img {
+          height: 60px !important;
         }
         .desktop-nav {
           display: flex;
@@ -142,109 +235,166 @@ const Navbar = () => {
           gap: 2rem;
         }
         .nav-link {
-          font-weight: 600;
+          font-family: var(--font-heading);
+          font-weight: 700;
           font-size: 0.95rem;
           position: relative;
           padding: 0.5rem 0;
-          color: #374151;
-          transition: color 0.3s;
+          color: var(--navy);
+          transition: color 0.2s;
           background: none;
           border: none;
           cursor: pointer;
+          display: inline-flex;
+          align-items: center;
+          gap: 4px;
         }
         .nav-link:hover {
-          color: #E8461A;
+          text-decoration: underline;
+          text-decoration-color: var(--lime);
+          text-decoration-thickness: 3px;
+          text-underline-offset: 8px;
         }
         .nav-link.active::after {
           content: '';
           position: absolute;
-          bottom: 0;
+          bottom: 2px;
           left: 0;
           width: 100%;
-          height: 2px;
-          background-color: #E8461A;
+          height: 4px;
+          border-radius: 2px;
+          background-color: var(--lime);
+          box-shadow: 0 1px 0 var(--navy);
         }
+        .chev { transition: transform 0.2s ease; }
+        .chev.open { transform: rotate(180deg); }
         .dropdown-container {
           position: relative;
         }
         .dropdown-menu {
+          list-style: none;
           position: absolute;
           top: 100%;
           left: -1rem;
-          background-color: #FFFFFF;
-          border: 1px solid #E5E7EB;
-          border-radius: 10px;
+          background-color: var(--cream);
+          border: 1px solid var(--line);
+          border-top: 3px solid var(--lime);
+          border-radius: 0 0 10px 10px;
           padding: 0.5rem 0;
-          min-width: 200px;
-          box-shadow: 0 4px 24px rgba(0,0,0,0.07);
+          min-width: 220px;
+          box-shadow: 0 16px 30px var(--navy-12);
           display: flex;
           flex-direction: column;
         }
+        .dropdown-menu[hidden] { display: none; }
         .dropdown-item {
-          padding: 0.75rem 1.5rem;
-          font-size: 0.9rem;
-          color: #374151;
-          transition: background-color 0.2s, color 0.2s;
-        }
-        .dropdown-item:hover {
-          background-color: #FFF8F5;
-          color: #E8461A;
-        }
-        .nav-actions {
           display: flex;
           align-items: center;
-          gap: 1rem;
+          padding: 0.6rem 1.5rem;
+          font-family: var(--font-heading);
+          font-weight: 600;
+          font-size: 0.92rem;
+          color: var(--navy);
+          transition: background-color 0.2s, color 0.2s;
         }
-        .mobile-toggle {
-          display: none;
-          align-items: center;
+        .dropdown-item:hover, .dropdown-item.active {
+          background-color: var(--surface-alt);
+          color: var(--navy);
+          box-shadow: inset 4px 0 0 var(--lime);
+        }
+        .nav-cta {
+          padding: 0.6rem 1.15rem;
+          font-size: 0.92rem;
+          border-color: var(--navy);
         }
         .hamburger {
-          color: #374151;
-          background: none;
-          border: none;
-          cursor: pointer;
+          display: none;
+          align-items: center;
+          justify-content: center;
+          color: var(--navy);
+          min-width: 44px;
         }
         .mobile-menu {
-          display: none;
+          position: fixed;
+          inset: 0;
+          z-index: 1100;
+          background-color: var(--navy);
+          display: flex;
+          flex-direction: column;
+          padding: 1rem 1.25rem 1.5rem;
+          overflow-y: auto;
         }
-        
-        @media (max-width: 768px) {
+        .mobile-menu[hidden] { display: none; }
+        .mobile-menu-head {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          margin: -1rem -1.25rem 0;
+          padding: 0.75rem 1.25rem;
+          background: var(--cream);
+          border-bottom: 3px solid var(--lime);
+        }
+        .mobile-close { display: flex; color: var(--navy); }
+        .mobile-menu-body {
+          display: flex;
+          flex-direction: column;
+          padding: 1rem 0;
+          flex: 1;
+        }
+        .mobile-link {
+          display: flex;
+          align-items: center;
+          padding: 0.85rem 0;
+          border-bottom: 1px solid var(--cream-15);
+          font-family: var(--font-heading);
+          font-size: 1.35rem;
+          font-weight: 700;
+          color: var(--cream);
+        }
+        .mobile-link.active, .mobile-link:hover { color: var(--lime); }
+        .mobile-services { list-style: none; }
+        .mobile-link.nested {
+          padding-left: 1.25rem;
+          font-size: 1.1rem;
+          font-weight: 600;
+          color: var(--cream-80);
+        }
+        .mobile-link.nested.active { color: var(--lime); }
+        .mobile-services-label {
+          padding: 1rem 0 0.25rem;
+          font-family: var(--font-heading);
+          font-weight: 800;
+          font-size: 0.8rem;
+          letter-spacing: 0.15em;
+          text-transform: uppercase;
+          color: var(--lime);
+        }
+        .mobile-menu-foot {
+          display: flex;
+          flex-direction: column;
+          gap: 1rem;
+        }
+        .mobile-contact {
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          gap: 0.25rem;
+          color: var(--cream-80);
+          font-size: 0.95rem;
+        }
+        .mobile-contact a { min-height: 36px; display: inline-flex; align-items: center; }
+
+        @media (max-width: 960px) {
+          .desktop-nav { gap: 1.25rem; }
+          .nav-cta { padding: 0.55rem 0.9rem; font-size: 0.85rem; }
+        }
+        @media (max-width: 860px) {
           .desktop-nav { display: none; }
-          .mobile-toggle { display: flex; }
-          .mobile-menu {
-            display: flex;
-            flex-direction: column;
-            position: absolute;
-            top: 100%;
-            left: 0;
-            width: 100%;
-            background-color: #FFFFFF;
-            padding: 1.5rem;
-            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
-            border-bottom: 1px solid #E5E7EB;
-          }
-          .mobile-link {
-            padding: 1rem 0;
-            border-bottom: 1px solid #E5E7EB;
-            font-size: 1.1rem;
-            font-weight: 500;
-            color: #0D1421;
-          }
-          .mobile-link.nested {
-            padding-left: 1.5rem;
-            font-size: 1rem;
-            color: #6B7280;
-          }
-          .mobile-services-label {
-            padding: 1rem 0;
-            font-weight: 600;
-            font-size: 1.1rem;
-            color: #E8461A;
-          }
+          .hamburger { display: flex; }
+          .logo-img { height: 56px !important; }
         }
-      `}</style>
-    </nav>
+      ` }} />
+    </header>
   );
 };
 

@@ -1,6 +1,24 @@
 @import './tokens.css';
 @import './animations.css';
 
+/* Self-hosted brand fonts (latin subset, variable 400–800). SIL Open Font License. */
+@font-face {
+  font-family: 'DM Sans';
+  font-style: normal;
+  font-weight: 400 800;
+  font-display: swap;
+  src: url('/fonts/dm-sans-latin.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+@font-face {
+  font-family: 'Manrope';
+  font-style: normal;
+  font-weight: 400 800;
+  font-display: swap;
+  src: url('/fonts/manrope-latin.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
 *, *::before, *::after {
   box-sizing: border-box;
   margin: 0;
@@ -9,11 +27,12 @@
 
 html {
   scroll-behavior: smooth;
+  scroll-padding-top: 96px; /* keeps anchored sections clear of the sticky header */
 }
 
 body {
   font-family: var(--font-body);
-  background-color: var(--bg-primary);
+  background-color: var(--cream);
   color: var(--text-primary);
   line-height: 1.6;
   -webkit-font-smoothing: antialiased;
@@ -24,13 +43,16 @@ body {
 
 h1, h2, h3, h4, h5, h6 {
   font-family: var(--font-heading);
-  font-weight: 600;
+  font-weight: 700;
   line-height: 1.2;
-  color: var(--text-heading);
+  letter-spacing: -0.02em;
+  color: var(--navy);
 }
 
 h1 {
   font-size: clamp(32px, 6vw, 80px);
+  font-weight: 800;
+  letter-spacing: -0.035em;
 }
 
 h2 {
@@ -64,27 +86,71 @@ button {
   font-family: inherit;
   border: none;
   background: none;
+  color: inherit;
 }
 
 a, button {
   min-height: 44px; /* Touch target size */
 }
 
+/* Headings-family elements per brand spec */
+nav, button, label, .btn, .section-label {
+  font-family: var(--font-heading);
+}
+
 input, textarea, select {
-  font-family: inherit;
+  font-family: var(--font-body);
   width: 100%;
   padding: 14px 16px;
   border-radius: var(--radius-input);
-  background-color: var(--input-bg);
-  color: var(--text-heading);
-  border: 1.5px solid #D1D5DB;
+  background-color: var(--cream);
+  color: var(--navy);
+  border: 1.5px solid var(--line);
   outline: none;
   font-size: 16px;
 }
 
+input::placeholder, textarea::placeholder {
+  color: var(--muted);
+  opacity: 1;
+}
+
+input:hover, textarea:hover, select:hover {
+  border-color: var(--muted);
+}
+
 input:focus, textarea:focus, select:focus {
-  border-color: var(--brand-orange);
-  box-shadow: 0 0 0 3px rgba(232, 70, 26, 0.1);
+  border-color: var(--navy);
+  box-shadow: 0 0 0 3px var(--lime);
+}
+
+/* ── Focus visibility (WCAG 2.4.7 / 1.4.11) ──────────────────────────────
+   Lime alone is only 1.4:1 on cream, so the ring is lime with a navy edge:
+   it passes on cream (navy edge) and on navy (lime ring). */
+:focus-visible {
+  outline: 3px solid var(--lime);
+  outline-offset: 2px;
+  box-shadow: 0 0 0 2px var(--navy);
+}
+input:focus-visible, textarea:focus-visible, select:focus-visible {
+  outline: none;
+}
+
+.skip-link {
+  position: absolute;
+  left: 16px;
+  top: -100px;
+  z-index: 2000;
+  background: var(--lime);
+  color: var(--navy);
+  font-weight: 700;
+  padding: 12px 20px;
+  border-radius: var(--radius-btn);
+  display: inline-flex;
+  align-items: center;
+}
+.skip-link:focus {
+  top: 12px;
 }
 
 .container {
@@ -113,6 +179,10 @@ input:focus, textarea:focus, select:focus {
   }
 }
 
+.text-center {
+  text-align: center;
+}
+
 .sr-only {
   position: absolute;
   width: 1px;
@@ -125,32 +195,35 @@ input:focus, textarea:focus, select:focus {
   border-width: 0;
 }
 
-/* Gradient Heading Utility */
+/* Former gradient heading — now a solid navy heading */
 .gradient-heading {
-  background: linear-gradient(90deg, #1A1A1A 60%, #E8461A 100%);
-  -webkit-background-clip: text;
-  color: transparent;
+  color: var(--navy);
 }
 
-/* Gradient Divider */
-.section-divider {
+/* Divider */
+.section-divider,
+.gradient-divider {
   height: 1px;
-  background: linear-gradient(90deg, transparent, #E5E7EB 30%, #E5E7EB 70%, transparent);
+  background: var(--line);
   margin: 0 auto;
-  max-width: 80%;
 }
+.section-divider { max-width: 80%; }
 
-/* Special Text Spacing Rules */
+/* Section labels (eyebrows) */
 .section-label {
   display: inline-block;
   font-size: 12px;
-  font-weight: 700;
+  font-weight: 800;
   letter-spacing: 3px;
   text-transform: uppercase;
-  color: var(--brand-orange);
+  color: var(--navy);
   margin-bottom: 24px;
-  border-left: 2px solid var(--brand-orange);
-  padding-left: 8px;
+  border-left: 3px solid var(--lime);
+  padding-left: 10px;
+}
+.on-navy .section-label,
+.section-label.on-navy {
+  color: var(--lime);
 }
 
 .section-label + h2 {
@@ -161,7 +234,7 @@ input:focus, textarea:focus, select:focus {
 .section-subtext {
   font-size: 18px;
   line-height: 1.8;
-  color: var(--text-secondary);
+  color: var(--navy-80);
   max-width: 640px;
   margin: 0 auto 56px auto;
 }
@@ -175,16 +248,17 @@ input:focus, textarea:focus, select:focus {
 }
 
 .card {
-  background: var(--bg-card);
-  border: 1px solid var(--border-color);
+  background: var(--cream);
+  border: 1px solid var(--line);
   border-radius: var(--radius-card);
   padding: 32px;
-  box-shadow: 0 4px 24px rgba(0,0,0,0.07);
-  transition: box-shadow var(--transition-normal), transform var(--transition-normal);
+  box-shadow: var(--shadow-card);
+  transition: box-shadow var(--transition-normal), transform var(--transition-normal), border-color var(--transition-normal);
 }
 
 .card:hover {
-  box-shadow: 0 8px 32px rgba(232, 70, 26, 0.12);
+  box-shadow: var(--shadow-card-hover);
+  border-color: var(--navy);
   transform: translateY(-3px);
 }
 
@@ -209,6 +283,52 @@ input:focus, textarea:focus, select:focus {
   flex-wrap: wrap;
 }
 
+/* Shared breadcrumb (service pages + inner pages) */
+.breadcrumb {
+  font-size: 0.95rem;
+  color: var(--cream-70);
+}
+.breadcrumb ol {
+  list-style: none;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  align-items: center;
+}
+.breadcrumb li + li::before {
+  content: '/';
+  margin-right: 6px;
+  color: var(--cream-70);
+}
+.breadcrumb a {
+  color: var(--cream);
+  text-decoration: underline;
+  text-decoration-color: var(--lime);
+  text-underline-offset: 3px;
+  min-height: 0;
+}
+.breadcrumb a:hover {
+  color: var(--lime);
+}
+.breadcrumb [aria-current] {
+  color: var(--cream);
+  font-weight: 600;
+}
+
+/* Inline text links on light backgrounds */
+.text-link {
+  color: var(--navy);
+  font-weight: 600;
+  text-decoration: underline;
+  text-decoration-color: var(--lime);
+  text-decoration-thickness: 2px;
+  text-underline-offset: 3px;
+  min-height: 0;
+}
+.text-link:hover {
+  text-decoration-color: var(--navy);
+}
+
 @media (max-width: 576px) {
   .cta-group {
     justify-content: center;
@@ -228,5 +348,14 @@ input:focus, textarea:focus, select:focus {
   .section-subtext {
     margin-bottom: 32px;
     font-size: 16px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
   }
 }

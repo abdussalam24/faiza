@@ -1,203 +1,169 @@
 import React from 'react';
-import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import { ArrowRight } from 'lucide-react';
 
-const HeroSection = () => {
-  const containerVariants = {
-    hidden: {},
-    visible: {
-      transition: {
-        staggerChildren: 0.15,
-      },
-    },
-  };
+const HeroSection = () => (
+  <section className="hero-section on-navy" aria-labelledby="hero-title">
+    <div className="container">
+      <div className="hero-content">
+        <div className="hero-text">
+          <span className="section-label on-navy">CANADA'S TRUSTED HR PARTNER</span>
 
-  const itemVariants = {
-    hidden: { opacity: 0, y: 30 },
-    visible: { 
-      opacity: 1, 
-      y: 0,
-      transition: { duration: 0.6, ease: 'easeOut' }
-    },
-  };
+          <h1 id="hero-title" className="hero-title">
+            HR That Works <em>as Hard as You Do.</em>
+          </h1>
 
-  const scrollToServices = (e) => {
-    e.preventDefault();
-    const element = document.getElementById('services');
-    if (element) {
-      element.scrollIntoView({ behavior: 'smooth' });
-    }
-  };
+          <p className="hero-description hero-subtext">
+            FABZ HR Consulting partners with businesses, families, and individuals to deliver expert HR solutions — from recruitment and executive search and fractional HR leadership to global mobility and career coaching. Built on trust. Delivered with accountability.
+          </p>
 
-  return (
-    <section className="hero-section hero-glow-bg section-wrapper" style={{ backgroundColor: '#FFFFFF' }}>
-      <div className="container">
-        <div className="hero-content">
-          <motion.div 
-            className="hero-text"
-            variants={containerVariants}
-            initial="hidden"
-            animate="visible"
-          >
-            <motion.div variants={itemVariants}>
-              <span className="section-label">CANADA'S TRUSTED HR PARTNER</span>
-            </motion.div>
-            
-            <motion.h1 className="hero-title gradient-heading" variants={itemVariants}>
-              HR That Works as Hard as You Do.
-            </motion.h1>
-            
-            <motion.p className="hero-description hero-subtext" variants={itemVariants}>
-              FABZ HR Consulting partners with businesses, families, and individuals to deliver expert HR solutions — from care staffing and fractional HR leadership to global mobility and career coaching. Built on trust. Delivered with accountability.
-            </motion.p>
-            
-            <motion.div className="hero-buttons cta-group" variants={itemVariants}>
-              <Link to="/book-demo" className="btn btn-primary" style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', minHeight: '44px' }}>
-                Book a Free Consultation <ArrowRight size={18} />
-              </Link>
-              <a href="#services" onClick={scrollToServices} className="btn btn-ghost" style={{ minHeight: '44px' }}>
-                Explore Our Services
-              </a>
-            </motion.div>
-            
-            <motion.div className="hero-chips" variants={itemVariants}>
-              <motion.span className="chip" initial={{ y: 20, opacity: 0 }} animate={{ y: 0, opacity: 1 }} transition={{ delay: 0.2 }}>🇨🇦 Based in Canada</motion.span>
-              <motion.span className="chip" initial={{ y: 20, opacity: 0 }} animate={{ y: 0, opacity: 1 }} transition={{ delay: 0.4 }}>🌍 Global Reach</motion.span>
-              <motion.span className="chip" initial={{ y: 20, opacity: 0 }} animate={{ y: 0, opacity: 1 }} transition={{ delay: 0.6 }}>14+ Years Experience</motion.span>
-            </motion.div>
-          </motion.div>
-          
-          <motion.div 
-            className="hero-image-wrapper"
-            initial={{ opacity: 0, x: 30 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.8, delay: 0.1, ease: 'easeOut' }}
-          >
-            <img 
-              src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&q=80&w=800" 
-              alt="HR Professional" 
-              className="hero-image"
-            />
-          </motion.div>
+          <div className="hero-buttons cta-group rise-in rise-in-3">
+            <Link to="/book-demo" className="btn btn-primary btn-lg">
+              Book a Free HR Health Check <ArrowRight size={18} aria-hidden="true" />
+            </Link>
+            <a href="#services" className="btn btn-ghost-white btn-lg">
+              Explore Our Services
+            </a>
+          </div>
+
+          <ul className="hero-chips rise-in rise-in-4" aria-label="Highlights">
+            <li className="chip"><span aria-hidden="true">🇨🇦</span> Based in Canada</li>
+            <li className="chip"><span aria-hidden="true">🌍</span> Global Reach</li>
+            <li className="chip">14+ Years Experience</li>
+          </ul>
+        </div>
+
+        <div className="hero-image-wrapper">
+          <img
+            src="/images/fabz-door.webp"
+            alt="FABZ HR open door and opportunity symbol"
+            width="560"
+            height="793"
+            className="hero-image"
+            fetchpriority="high"
+            decoding="async"
+          />
+          <p className="hero-tagline">People. Potential. Possibility.</p>
         </div>
       </div>
+    </div>
 
-      <style>{`
+    <style dangerouslySetInnerHTML={{ __html: `
+      .hero-section {
+        display: flex;
+        align-items: center;
+        padding: 110px 0;
+        position: relative;
+        overflow: hidden;
+        color: var(--cream);
+        /* Solid navy with a soft cream glow behind the artwork — text sits on navy (15:1) */
+        background:
+          radial-gradient(circle at 78% 45%, var(--cream-15) 0, transparent 38%),
+          var(--navy);
+      }
+      .hero-content {
+        position: relative;
+        z-index: 1;
+        display: flex;
+        align-items: center;
+        gap: 4rem;
+      }
+      .hero-text {
+        flex: 0 0 58%;
+      }
+      .hero-image-wrapper {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+      }
+      .hero-title {
+        margin-bottom: 24px;
+        color: var(--cream);
+        font-size: clamp(36px, 5.6vw, 72px);
+      }
+      .hero-title em {
+        font-style: normal;
+        color: var(--lime);
+      }
+      .hero-description {
+        font-size: 1.125rem;
+        color: var(--cream-80);
+        max-width: 90%;
+      }
+      .hero-buttons {
+        margin-bottom: 3rem;
+      }
+      .hero-chips {
+        list-style: none;
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+        flex-wrap: wrap;
+      }
+      .chip {
+        background: var(--cream-15);
+        border: 1px solid var(--cream-15);
+        padding: 0.5rem 1rem;
+        border-radius: 20px;
+        font-family: var(--font-heading);
+        font-size: 0.9rem;
+        font-weight: 700;
+        color: var(--cream);
+      }
+      .hero-image {
+        width: auto;
+        max-height: 460px;
+        height: auto;
+        animation: float 8s ease-in-out infinite;
+        filter: drop-shadow(0 25px 30px rgba(11, 32, 48, 0.6));
+      }
+      .hero-tagline {
+        margin-top: 1.25rem;
+        font-family: var(--font-heading);
+        font-weight: 700;
+        letter-spacing: 0.08em;
+        color: var(--lime);
+        text-align: center;
+      }
+
+      @media (max-width: 1024px) {
+        .hero-text { flex: 0 0 60%; }
+      }
+
+      @media (max-width: 768px) {
         .hero-section {
-          display: flex;
-          align-items: center;
-          padding: 120px 0;
-          position: relative;
-        }
-        .hero-glow-bg::before {
-          content: '';
-          position: absolute;
-          top: 0;
-          left: 0;
-          width: 100%;
-          height: 100%;
-          background: radial-gradient(ellipse 60% 50% at 20% 50%, rgba(232,70,26,0.06) 0%, transparent 70%);
-          pointer-events: none;
-          z-index: 0;
+          padding: 60px 0;
         }
         .hero-content {
-          position: relative;
-          z-index: 1;
-          display: flex;
-          align-items: center;
-          gap: 4rem;
+          flex-direction: column;
+          text-align: center;
+          gap: 2.5rem;
         }
-        .hero-text {
-          flex: 0 0 55%;
-        }
-        .hero-image-wrapper {
-          flex: 0 0 45%;
-        }
-        .hero-title {
-          margin-bottom: 24px;
+        .hero-text, .hero-image-wrapper {
+          flex: 0 0 100%;
+          width: 100%;
         }
         .hero-description {
-          font-size: 1.125rem;
-          color: var(--text-secondary);
-          max-width: 90%;
+          max-width: 100%;
         }
+        .hero-buttons, .hero-chips {
+          justify-content: center;
+        }
+        .hero-image { max-height: 300px; }
+      }
+      @media (max-width: 576px) {
         .hero-buttons {
-          margin-bottom: 3rem;
-        }
-        .hero-chips {
-          display: flex;
-          align-items: center;
-          gap: 1rem;
-          flex-wrap: wrap;
-        }
-        .chip {
-          background: #FFF8F5;
-          border: 1px solid var(--border-color);
-          padding: 0.5rem 1rem;
-          border-radius: 20px;
-          font-size: 0.9rem;
-          font-weight: 600;
-          color: var(--text-primary);
-        }
-        .hero-image-wrapper {
-          padding: 8px;
-          background: #FFFFFF;
-          border-radius: 12px;
-          box-shadow: 0 4px 24px rgba(0,0,0,0.07);
-        }
-        .hero-image {
-          border-radius: 12px;
+          flex-direction: column;
           width: 100%;
-          height: auto;
-          object-fit: cover;
-          aspect-ratio: 4/5;
         }
-
-        @media (max-width: 1024px) {
-          .hero-text { flex: 0 0 60%; }
-          .hero-image-wrapper { flex: 0 0 40%; }
+        .hero-buttons .btn {
+          width: 100%;
+          justify-content: center;
         }
-
-        @media (max-width: 768px) {
-          .hero-section {
-            padding: 60px 0;
-          }
-          .hero-content {
-            flex-direction: column;
-            text-align: center;
-            gap: 3rem;
-          }
-          .hero-text, .hero-image-wrapper {
-            flex: 0 0 100%;
-            width: 100%;
-          }
-          .hero-description {
-            max-width: 100%;
-          }
-          .hero-buttons {
-            justify-content: center;
-          }
-          .hero-chips {
-            justify-content: center;
-          }
-          .section-label {
-            margin: 0 auto 24px auto;
-          }
-        }
-        @media (max-width: 576px) {
-          .hero-buttons {
-            flex-direction: column;
-            width: 100%;
-          }
-          .hero-buttons .btn {
-            width: 100%;
-            justify-content: center;
-          }
-        }
-      `}</style>
-    </section>
-  );
-};
+      }
+    ` }} />
+  </section>
+);
 
 export default HeroSection;
