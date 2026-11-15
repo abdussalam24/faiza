@@ -7,7 +7,8 @@ import FAQAccordion from '../components/ui/FAQAccordion';
 import EnquiryForm, { CONTACT_SERVICE_OPTIONS } from '../components/forms/EnquiryForm';
 import Seo from '../components/seo/Seo';
 import { breadcrumbSchema, faqSchema } from '../components/seo/schema';
-import { BOOKING, SITE } from '../config/site';
+import { SITE } from '../config/site';
+import BookingCalendar from '../components/booking/BookingCalendar';
 
 /** ?service=… values accepted for preselecting the dropdown (e.g. from "Partner with us"). */
 const SERVICE_PARAM = {
@@ -141,23 +142,19 @@ const ContactPage = () => {
             </p>
           </AnimatedSection>
           <AnimatedSection delay={0.15}>
-            {BOOKING.schedulerUrl ? (
-              <iframe
-                className="scheduler-frame"
-                src={BOOKING.schedulerUrl}
-                title="Book a discovery call with FABZ HR"
-                loading="lazy"
-              />
-            ) : (
-              <div className="scheduler-placeholder">
-                <CalendarCheck size={40} aria-hidden="true" />
-                <h3>Choose a time that suits you</h3>
-                <p>Pick a time in our online calendar and your meeting invitation is sent straight to your inbox.</p>
-                <Link to="/book-demo" className="btn btn-primary">
-                  Open the Booking Calendar <ArrowRight size={16} aria-hidden="true" />
-                </Link>
-              </div>
-            )}
+            {/* Live booking calendar (same as /book-demo). Until Microsoft 365 is connected, the card below shows instead. */}
+            <BookingCalendar
+              fallback={
+                <div className="scheduler-placeholder">
+                  <CalendarCheck size={40} aria-hidden="true" />
+                  <h3>Request a time that suits you</h3>
+                  <p>Send us your preferred date and time and we'll confirm your call by email.</p>
+                  <Link to="/book-demo" className="btn btn-primary">
+                    Request a Discovery Call <ArrowRight size={16} aria-hidden="true" />
+                  </Link>
+                </div>
+              }
+            />
           </AnimatedSection>
         </div>
       </section>
@@ -262,7 +259,7 @@ const ContactPage = () => {
         }
         .discovery-grid {
           display: grid;
-          grid-template-columns: 1fr 1fr;
+          grid-template-columns: minmax(0, 0.75fr) minmax(0, 1.5fr);
           gap: 3rem;
           align-items: center;
         }
@@ -273,13 +270,6 @@ const ContactPage = () => {
           font-size: clamp(28px, 3.4vw, 40px);
         }
         .discovery-copy { color: var(--cream-80); }
-        .scheduler-frame {
-          width: 100%;
-          height: 640px;
-          border: 0;
-          border-radius: 16px;
-          background: var(--cream);
-        }
         .scheduler-placeholder {
           background: var(--cream);
           color: var(--navy);

@@ -77,15 +77,6 @@ export const HEALTH_CHECK = {
 };
 
 /**
- * Discovery-call scheduler on /contact. Paste a Calendly or Cal.com link
- * (e.g. 'https://calendly.com/fabzhr/discovery-call') to replace the placeholder
- * with a live inline booking widget. Leave empty to show the placeholder card.
- */
-export const BOOKING = {
-  schedulerUrl: '',
-};
-
-/**
  * Live chat. By default the site uses the built-in "Ask FABZ HR" assistant
  * (a port of the widget on www.fabzhr.com). To switch to Tawk.to, paste the two
  * IDs from Tawk ▸ Administration ▸ Chat Widget (embed URL:
