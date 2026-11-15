@@ -5,21 +5,21 @@ import AnimatedSection from '../../components/ui/AnimatedSection';
 
 const unsplash = (id) => `https://images.unsplash.com/photo-${id}?auto=format&fm=webp&fit=crop&w=1200&h=400&q=70`;
 
-const CareerCoachingPage = () => {
+const CareerServicesPage = () => {
   const seoContent = {
-    title: "Career Coaching | FABZ HR International Inc.",
-    description: "Career coaching from a senior HR leader: resume and LinkedIn audits, interview preparation, career transition planning and executive presence coaching."
+    title: "Career Services | FABZ HR International Inc.",
+    description: "Career services from a senior HR leader: resume and LinkedIn updates, interview preparation, career coaching and transition planning for your next move."
   };
 
   const heroContent = {
-    title: "Career Coaching",
+    title: "Career Services",
     subtitle: "Own your career. Build your future. With expert guidance every step of the way."
   };
 
   const overview = {
     paragraphs: [
       "Navigating a career transition, aiming for a promotion, or searching for a new role can be overwhelming. Working with an experienced HR leader gives you an insider's perspective on what hiring managers are really looking for.",
-      "Our career coaching services are designed to give you clarity, confidence, and a strategic action plan to reach your professional goals.",
+      "Our career services are designed to give you clarity, confidence, and a strategic action plan to reach your professional goals.",
       "From optimizing your resume to mastering executive presence, we equip you with the tools to stand out.",
       "Faiza has spent more than 14 years on the hiring side of the table across finance, technology, healthcare, aviation and education. Coaching with her means honest, practical feedback on how your experience will be read by the people making the decision."
     ],
@@ -83,7 +83,7 @@ const CareerCoachingPage = () => {
   };
 
   const faqs = [
-    { q: 'Who is career coaching for?', a: 'Anyone navigating a career change, job search, promotion, or simply feeling stuck. We work with fresh graduates, mid-career professionals, and C-suite executives.' },
+    { q: 'Who are your career services for?', a: 'Anyone navigating a career change, job search, promotion, or simply feeling stuck. We work with fresh graduates, mid-career professionals, and C-suite executives.' },
     { q: 'Are sessions conducted online or in-person?', a: 'Sessions are conducted via video call (Zoom or Google Meet), making them accessible from anywhere in Canada and beyond.' },
     { q: 'How long is each coaching session?', a: 'Each session is 60 minutes. Sessions are scheduled at a time that works for you.' },
     { q: 'Do you specialize in specific industries?', a: 'Faiza\'s background spans 10+ industries including Finance, Tech, Healthcare, Aviation, and Education — giving you an experienced sounding board regardless of your field.' },
@@ -256,7 +256,7 @@ const CareerCoachingPage = () => {
 
   return (
     <ServicePageTemplate
-      path="/career-coaching"
+      path="/career-services"
       audience="Professionals, executives and new graduates"
       seoContent={seoContent}
       heroContent={heroContent}
@@ -276,4 +276,4 @@ const CareerCoachingPage = () => {
   );
 };
 
-export default CareerCoachingPage;
+export default CareerServicesPage;

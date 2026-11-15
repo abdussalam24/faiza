@@ -117,7 +117,7 @@ async function main() {
     <svg width="1200" height="630" xmlns="http://www.w3.org/2000/svg">
       <rect x="170" y="452" width="96" height="6" rx="3" fill="${LIME}"/>
       <text x="170" y="510" font-family="Manrope, 'DM Sans', Arial, sans-serif" font-size="30" font-weight="700" fill="#f4f6f2">
-        Recruitment · Fractional HR · Global Mobility · Career Coaching
+        Recruitment · Fractional HR · Global Mobility · Career Services
       </text>
       <text x="170" y="556" font-family="'DM Sans', Arial, sans-serif" font-size="24" fill="${LIME}">
         Ontario, Canada  ·  fabzhr.com

@@ -16,6 +16,8 @@ import BookDemoPage from './pages/BookDemoPage';
 import CareersPage from './pages/CareersPage';
 import ContactPage from './pages/ContactPage';
 import HRHealthCheckPage from './pages/HRHealthCheckPage';
+import PostListPage from './pages/PostListPage';
+import PostPage from './pages/PostPage';
 import ThankYouPage from './pages/ThankYouPage';
 import NotFoundPage from './pages/NotFoundPage';
 import PrivacyPage from './pages/legal/PrivacyPage';
@@ -26,7 +28,7 @@ import AccessibilityPage from './pages/legal/AccessibilityPage';
 import RecruitmentPage from './pages/services/RecruitmentPage';
 import FractionalHRPage from './pages/services/FractionalHRPage';
 import GlobalMobilityPage from './pages/services/GlobalMobilityPage';
-import CareerCoachingPage from './pages/services/CareerCoachingPage';
+import CareerServicesPage from './pages/services/CareerServicesPage';
 
 // Styles
 import './styles/global.css';
@@ -46,11 +48,15 @@ function App() {
             <Route path="/contact" element={<ContactPage />} />
             <Route path="/book-demo" element={<BookDemoPage />} />
             <Route path="/hr-health-check" element={<HRHealthCheckPage />} />
+            <Route path="/blog" element={<PostListPage type="blog" />} />
+            <Route path="/blog/:slug" element={<PostPage type="blog" />} />
+            <Route path="/announcements" element={<PostListPage type="announcement" />} />
+            <Route path="/announcements/:slug" element={<PostPage type="announcement" />} />
             <Route path="/careers" element={<CareersPage />} />
             <Route path="/recruitment-executive-search" element={<RecruitmentPage />} />
             <Route path="/fractional-hr" element={<FractionalHRPage />} />
             <Route path="/global-mobility" element={<GlobalMobilityPage />} />
-            <Route path="/career-coaching" element={<CareerCoachingPage />} />
+            <Route path="/career-services" element={<CareerServicesPage />} />
             <Route path="/privacy" element={<PrivacyPage />} />
             <Route path="/terms" element={<TermsPage />} />
             <Route path="/accessibility" element={<AccessibilityPage />} />

@@ -18,7 +18,7 @@ Deploys to Vercel as-is (framework preset: **Vite**, build command `npm run buil
 
 | # | Item | Status / what to do |
 |---|------|---------------------|
-| 1 | **Phone number** | The site uses **+1 437-365-9404** everywhere, per your instruction. The `(416) 555-0123` placeholder from the live site is **not used anywhere**. Please confirm 437-365-9404 is the number you want public. |
+| 1 | **Phone number** | Removed from the whole site at the client's request (top bar, header, footer, contact page, legal pages, chat, schema). Visitors' own phone fields in forms are kept. |
 | 2 | **Form inbox** | All forms deliver to **contact@fabzhr.com** via FormSubmit (not the Hotmail address). ✅ More credible for a consultancy. |
 | 3 | **Activate FormSubmit (required)** | The **first** form submission triggers a one-time "Activate form" email to contact@fabzhr.com. Click the link in that email or **no enquiries will be delivered**. Do this right after deploying: submit a test from `/contact`, then activate. |
 | 4 | **Google Form needs a settings change** | The careers form currently shows **"Sign in to your Google Account"** to visitors (HTTP 401). Google forces sign-in when a form has a **file-upload question** or is restricted to an organization. In Google Forms ▸ Settings ▸ Responses, turn off "Restrict to users in…", and replace any *File upload* question with a "LinkedIn / resume link" short-answer question. Otherwise most applicants can't apply. |
@@ -31,18 +31,19 @@ Deploys to Vercel as-is (framework preset: **Vite**, build command `npm run buil
 | 13 | **Ontario recruiter licence** | "Approved Ontario Company Recruiter Licence" now appears in the footer (every page), homepage hero badges, About, Careers, Contact, Terms, the Recruitment & Executive Search page (intro + FAQ), the chat assistant and the company schema. Add the **licence number** to `SITE.recruiterLicence.number` in `src/config/site.js` and it shows everywhere automatically. |
 | 12 | **Care Staffing → Recruitment & Executive Search** | Care Staffing has been removed site-wide and replaced by **Recruitment & Executive Search** at `/recruitment-executive-search`, using fabzhr.com's wording. `vercel.json` sends a **301 redirect** from `/care-staffing`, so old links and rankings carry over. The Careers subtitle you specified ("…in care, HR, or coaching") now reads "…in HR, professional, or leadership roles". |
 | 10 | **Immigration wording** | Global Mobility copy now states that FABZ HR is not a licensed immigration consultant and coordinates with RCICs or lawyers for regulated advice. In Canada, paid immigration advice requires a licence (IRPA s.91). The original "Visa & Work Permit Support" card is kept as-is; consider renaming it to "Work Permit Process Coordination". |
-| 11 | **Discovery-call scheduler** | `/contact` shows a placeholder card linking to `/book-demo`. Paste a Calendly or Cal.com URL into `BOOKING.schedulerUrl` to embed a live booking widget. |
+| 11 | **Online booking calendar — needs setup** | `/book-demo` has a custom booking calendar that creates a **Microsoft Teams** meeting in Faiza's Outlook calendar, emails the invite to the visitor and emails a notification to contact@fabzhr.com. It stays switched off (the old request form shows instead) until the Microsoft 365 credentials are added — see **Online booking setup** below. |
+| 15 | **Career Coaching → Career Services** | Renamed site-wide; page moved to `/career-services` with a 301 redirect from `/career-coaching`. |
+| 16 | **Blog & Announcements** | New `/blog` and `/announcements` pages (under **Resources** in the header). Two starter posts are included — **review or replace them before launch**. See **Publishing a blog post** below. |
 
 ---
 
 ## Where to change things
 
-### Phone, email, address, LinkedIn → `src/config/site.js`
+### Email, address, LinkedIn → `src/config/site.js`
 One file feeds the top bar, header, footer, contact page, forms, chat assistant, legal pages and JSON-LD schema:
 
 ```js
 email: 'contact@fabzhr.com',
-phone: { display: '+1 437-365-9404', href: '+14373659404' },  // href = digits for tel: links
 location: 'Ontario, Canada',
 social: { linkedin: 'https://www.linkedin.com/company/fabz-hr/' },
 ```
@@ -53,10 +54,54 @@ Changing `email` also changes where every form is delivered (FormSubmit sends to
 2. Paste it into `CAREERS.googleFormEmbedUrl`.
 3. Paste the same URL **without** `?embedded=true` into `CAREERS.googleFormPublicUrl` (used for the "open in new tab" fallback).
 
+### Publishing a blog post or announcement
+1. On GitHub, open `src/content/posts/` and click **Add file ▸ Create new file**.
+2. Name it after the URL you want, e.g. `hiring-tips-2027.md` → `/blog/hiring-tips-2027`.
+3. Start the file with this header, then write the post in Markdown below it:
+   ```
+   ---
+   title: Five hiring tips for 2027
+   date: 2027-01-15
+   type: blog            # or: announcement
+   excerpt: One or two sentences for the listing page and Google.
+   author: Faiza Hussain
+   ---
+   Your article text… ## for headings, **bold**, - for bullet lists, [link text](/contact).
+   ```
+4. **Commit changes.** Vercel rebuilds automatically and the post appears on `/blog` (or `/announcements`), newest first, and in the sitemap. Add `draft: true` to the header to keep a post hidden.
+
 ### Add a page
 Create it in `src/pages/`, add a `<Route>` in `src/App.jsx`, and add its path to `src/routes.js` (this prerenders it and adds it to `sitemap.xml`). Use `<Seo title description path jsonLd />` for its head tags.
 
 ---
+
+## Online booking setup (Microsoft 365 / Teams)
+
+fabzhr.com email runs on Microsoft 365, so bookings go straight into Faiza's Outlook calendar with a Teams link. One-time setup (about 15 minutes, needs a Microsoft 365 **admin**):
+
+1. **Register an app** — go to https://entra.microsoft.com ▸ *Applications ▸ App registrations ▸ New registration*. Name: `FABZ HR Website Booking`, *Accounts in this organizational directory only*. Click **Register**. Copy the **Application (client) ID** and **Directory (tenant) ID**.
+2. **Create a secret** — *Certificates & secrets ▸ New client secret* (24 months). Copy the secret **Value** immediately (it is shown once). Put a reminder in the calendar to renew it before it expires.
+3. **Grant calendar access** — *API permissions ▸ Add a permission ▸ Microsoft Graph ▸ Application permissions ▸* `Calendars.ReadWrite` ▸ **Add**, then **Grant admin consent**.
+4. **Recommended — limit the app to one mailbox.** In Exchange Online PowerShell:
+   `New-ApplicationAccessPolicy -AppId <client-id> -PolicyScopeGroupId contact@fabzhr.com -AccessRight RestrictAccess -Description "Website booking"`
+   so the website can only touch that one calendar.
+5. **Add the settings in Vercel** — *Project ▸ Settings ▸ Environment Variables*:
+
+   | Name | Value |
+   |---|---|
+   | `MS_TENANT_ID` | Directory (tenant) ID |
+   | `MS_CLIENT_ID` | Application (client) ID |
+   | `MS_CLIENT_SECRET` | the secret Value |
+   | `MS_CALENDAR_USER` | `contact@fabzhr.com` (or Faiza's own mailbox — must be a licensed user with Teams) |
+
+6. **Redeploy** (*Deployments ▸ ⋯ ▸ Redeploy*). `/book-demo` now shows the live calendar. Make a test booking with a personal email to confirm the invite arrives.
+
+**Optional settings** (same place, all have sensible defaults):
+`BOOKING_TIMEZONE` (America/Toronto) · `BOOKING_DAYS` (1,2,3,4,5 = Mon–Fri) · `BOOKING_START` (09:00) · `BOOKING_END` (17:00) · `BOOKING_SLOT_MINUTES` (30) · `BOOKING_BUFFER_MINUTES` (15) · `BOOKING_MIN_NOTICE_HOURS` (24) · `BOOKING_MAX_DAYS` (30) · `BOOKING_MEETING_TITLE` · `BOOKING_NOTIFY_EMAIL` (contact@fabzhr.com).
+
+**How it works:** the calendar only offers times inside working hours that are free in Faiza's Outlook calendar (with a 15-minute buffer around existing meetings), re-checks the slot at the moment of booking so two people can't take the same time, then creates the Teams meeting. Outlook emails the invitation to the visitor; the meeting appears in Faiza's calendar; and a notification email (via FormSubmit, same inbox as the website forms) is sent to contact@fabzhr.com. Visitors see times in their own time zone.
+
+**Prefer Google Meet?** Set `BOOKING_PROVIDER=google` with `GOOGLE_CLIENT_ID`, `GOOGLE_CLIENT_SECRET`, `GOOGLE_REFRESH_TOKEN` (OAuth client with the Calendar API enabled; scope `https://www.googleapis.com/auth/calendar`) and optionally `GOOGLE_CALENDAR_ID`.
 
 ## What changed
 
@@ -79,7 +124,7 @@ Create it in `src/pages/`, add a `<Route>` in `src/App.jsx`, and add its path to
 - New pages: `/privacy`, `/terms`, `/accessibility`, `/thank-you`, and a real **404** page.
 - Homepage: added **Find your FABZ path** (2-step guide), **Partner with us** (opens `/contact?service=partnership` preselected) and a stats strip on the founder block. The public pricing strip ("15–25% of first-year salary") is replaced by qualitative **Engagement Models**, and the percentages are also removed from the Care Staffing FAQ and "At a Glance" box.
 - `/about`: mission, vision and the four values (Accountability, Respect, Transparency, Trust) in fabzhr.com's wording, plus the registration line.
-- Services are now **Recruitment & Executive Search, Fractional HR, Global Mobility, Career Coaching** (Care Staffing removed).
+- Services are now **Recruitment & Executive Search, Fractional HR, Global Mobility, Career Services** (Care Staffing removed; Career Coaching renamed).
 - Four service pages expanded in the same order (H1 → intro → What's Included → *Who it's for* → *Deliverables* → Process → *Engagement model* → FAQ → *Other services* → CTA).
 - One Global Mobility image on the old site was a broken Unsplash link (404). It's replaced with fabzhr.com's own photo.
 

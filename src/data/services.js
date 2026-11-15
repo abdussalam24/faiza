@@ -16,8 +16,8 @@ export const SERVICES = [
     short: 'People-focused support for cross-border moves, relocation and international onboarding.',
   },
   {
-    name: 'Career Coaching',
-    path: '/career-coaching',
+    name: 'Career Services',
+    path: '/career-services',
     short: 'Resume, interview and transition coaching from a senior HR leader.',
   },
 ];

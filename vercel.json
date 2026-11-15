@@ -40,6 +40,11 @@
       "source": "/care-staffing",
       "destination": "/recruitment-executive-search",
       "permanent": true
+    },
+    {
+      "source": "/career-coaching",
+      "destination": "/career-services",
+      "permanent": true
     }
   ]
 }

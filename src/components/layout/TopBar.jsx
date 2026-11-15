@@ -1,5 +1,5 @@
 import React from 'react';
-import { Phone, Mail, ArrowRight } from 'lucide-react';
+import { Mail, ArrowRight } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { SITE } from '../../config/site';
 
@@ -7,10 +7,6 @@ const TopBar = () => (
   <div className="topbar">
     <div className="container topbar-inner">
       <div className="topbar-contact">
-        <a href={`tel:${SITE.phone.href}`} className="topbar-link">
-          <Phone size={14} aria-hidden="true" />
-          <span><span className="sr-only">Phone: </span>{SITE.phone.display}</span>
-        </a>
         <a href={`mailto:${SITE.email}`} className="topbar-link">
           <Mail size={14} aria-hidden="true" />
           <span><span className="sr-only">Email: </span>{SITE.email}</span>

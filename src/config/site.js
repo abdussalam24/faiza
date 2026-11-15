@@ -12,19 +12,13 @@ export const SITE = {
   legalName: 'FABZ HR International Inc.',
   tagline: 'People. Potential. Possibility.',
   description:
-    'FABZ HR supports organizations and professionals across Canada with recruitment and executive search, fractional HR, global mobility and career coaching.',
+    'FABZ HR supports organizations and professionals across Canada with recruitment and executive search, fractional HR, global mobility and career services.',
 
   /** Canonical production host — used for canonical tags, sitemap and OG URLs. No trailing slash. */
   url: 'https://www.fabzhr.com',
 
   /** Email shown publicly and used as the FormSubmit recipient. */
   email: 'contact@fabzhr.com',
-
-  /** Phone: `display` is what visitors see, `href` must be E.164 digits for tel: links. */
-  phone: {
-    display: '+1 437-365-9404',
-    href: '+14373659404',
-  },
 
   location: 'Ontario, Canada',
   registration: 'FABZ HR International Inc., registered in Toronto, Canada',

@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { Linkedin, MapPin, Phone, Mail, Building2, BadgeCheck } from 'lucide-react';
+import { Linkedin, MapPin, Mail, Building2, BadgeCheck } from 'lucide-react';
 import Logo from './Logo';
 import { SITE } from '../../config/site';
 import { SERVICES } from '../../data/services';
@@ -16,7 +16,7 @@ const Footer = () => (
           </Link>
           <p className="footer-tagline">{SITE.tagline}</p>
           <p className="footer-desc">
-            HR consulting for organizations and professionals — recruitment and executive search, fractional HR, global mobility and career coaching.
+            HR consulting for organizations and professionals — recruitment and executive search, fractional HR, global mobility and career services.
           </p>
           <a
             href={SITE.social.linkedin}
@@ -46,6 +46,8 @@ const Footer = () => (
             <li><Link to="/about">About</Link></li>
             <li><Link to="/contact">Contact</Link></li>
             <li><Link to="/careers">Careers</Link></li>
+            <li><Link to="/blog">Blog</Link></li>
+            <li><Link to="/announcements">Announcements</Link></li>
             <li><Link to="/hr-health-check">Free HR Health Check</Link></li>
             <li><Link to="/book-demo">Book a Consultation</Link></li>
           </ul>
@@ -58,10 +60,6 @@ const Footer = () => (
             <li>
               <Mail size={18} className="contact-icon" aria-hidden="true" />
               <a href={`mailto:${SITE.email}`}>{SITE.email}</a>
-            </li>
-            <li>
-              <Phone size={18} className="contact-icon" aria-hidden="true" />
-              <a href={`tel:${SITE.phone.href}`}>{SITE.phone.display}</a>
             </li>
             <li>
               <MapPin size={18} className="contact-icon" aria-hidden="true" />

@@ -12,7 +12,7 @@ const PATHS = {
     { label: 'Support a cross-border move', sub: 'Planning for international people transitions', service: 'Global Mobility', path: '/global-mobility', description: 'Global Mobility can help coordinate the people side of an international move and clarify the next planning steps.' },
   ],
   career: [
-    { label: 'Plan my next career step', sub: 'Resume, interviews and direction', service: 'Career Coaching', path: '/career-coaching', description: 'Career Coaching can help you clarify your goals, present your experience with confidence and prepare for the next opportunity.' },
+    { label: 'Plan my next career step', sub: 'Resume, interviews and direction', service: 'Career Services', path: '/career-services', description: 'Career Services can help you clarify your goals, present your experience with confidence and prepare for the next opportunity.' },
     { label: 'Explore a move across borders', sub: 'Career and relocation planning', service: 'Global Mobility', path: '/global-mobility', description: 'Global Mobility can help you organize the people and career considerations of a cross-border transition.' },
     { label: 'Find my next role', sub: 'Share your profile with our team', service: null, serviceName: 'Careers', path: '/careers', description: 'Share your profile through our careers form and we will reach out when a role that fits your goals comes up.' },
   ],

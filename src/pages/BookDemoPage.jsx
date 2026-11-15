@@ -3,9 +3,10 @@ import AnimatedSection from '../components/ui/AnimatedSection';
 import Seo from '../components/seo/Seo';
 import { breadcrumbSchema } from '../components/seo/schema';
 import FormSubmitFields from '../components/forms/FormSubmitFields';
+import BookingCalendar from '../components/booking/BookingCalendar';
 import { FORMS, SITE } from '../config/site';
 
-const SERVICE_CHOICES = ['Recruitment & Executive Search', 'Fractional HR', 'Global Mobility', 'Career Coaching', 'Not Sure Yet'];
+const SERVICE_CHOICES = ['Recruitment & Executive Search', 'Fractional HR', 'Global Mobility', 'Career Services', 'Not Sure Yet'];
 
 const BookDemoPage = () => {
   const [services, setServices] = useState([]);
@@ -38,60 +39,8 @@ const BookDemoPage = () => {
     setSubmitting(true);
   };
 
-  return (
-    <>
-      <Seo
-        title="Book a Consultation | FABZ HR International Inc."
-        description="Schedule a free 30-minute discovery call or HR health check with Faiza Hussain. No obligation, just clarity on your HR, staffing or career challenges."
-        path="/book-demo"
-        jsonLd={breadcrumbSchema([{ name: 'Book a Consultation', path: '/book-demo' }])}
-      />
-
-      <section className="section-wrapper booking-section" style={{ backgroundColor: 'var(--surface-alt)' }}>
-        <div className="container">
-          <div className="booking-grid">
-
-            {/* Left Column */}
-            <AnimatedSection className="booking-info">
-              <span className="section-label">FREE DISCOVERY CALL</span>
-              <h1 className="booking-title" style={{ textAlign: 'left', margin: '0 0 24px 0' }}>Let's Talk About Your HR Needs</h1>
-              <p className="booking-desc section-subtext" style={{ marginLeft: 0, textAlign: 'left' }}>
-                In 30 minutes, we'll understand your challenges, explain how FABZ can help, and outline next steps — with no pressure and no obligation.
-              </p>
-
-              <ul className="booking-checklist">
-                <li><span className="check" aria-hidden="true">✓</span> 30-minute focused conversation</li>
-                <li><span className="check" aria-hidden="true">✓</span> Identify your biggest HR challenge</li>
-                <li><span className="check" aria-hidden="true">✓</span> Discover which service is right for you</li>
-                <li><span className="check" aria-hidden="true">✓</span> Walk through engagement options and timelines</li>
-                <li><span className="check" aria-hidden="true">✓</span> Meet Faiza directly — no gatekeepers</li>
-              </ul>
-
-              <div className="booking-founder">
-                <img
-                  src="/faiza-avatar.webp"
-                  alt="Faiza Hussain"
-                  width="160"
-                  height="160"
-                  loading="lazy"
-                  decoding="async"
-                  className="booking-avatar"
-                />
-                <div>
-                  <strong>Faiza Hussain</strong>
-                  <p style={{ fontSize: '0.9rem', color: 'var(--muted)' }}>Founder & Principal HR Consultant</p>
-                </div>
-              </div>
-
-              <div className="booking-fallback">
-                Prefer email? <a className="text-link" href={`mailto:${SITE.email}`}>{SITE.email}</a>
-                <br />
-                Prefer to call? <a className="text-link" href={`tel:${SITE.phone.href}`}>{SITE.phone.display}</a>
-              </div>
-            </AnimatedSection>
-
-            {/* Right Column (Form) */}
-            <AnimatedSection className="booking-form-wrapper" delay={0.2}>
+  // Fallback shown until the live calendar is connected (see README ▸ Online booking).
+  const requestForm = (
               <form action={FORMS.action} method="POST" className="booking-form" onSubmit={onSubmit}>
                 <FormSubmitFields subject="New consultation booking request — FABZ HR" />
                 <input type="hidden" name="service" value={services.join(', ')} />
@@ -209,6 +158,61 @@ const BookDemoPage = () => {
                   We'll confirm your slot by email. {SITE.responseTime}.
                 </p>
               </form>
+  );
+
+  return (
+    <>
+      <Seo
+        title="Book a Consultation | FABZ HR International Inc."
+        description="Schedule a free 30-minute discovery call or HR health check with Faiza Hussain. No obligation, just clarity on your HR, staffing or career challenges."
+        path="/book-demo"
+        jsonLd={breadcrumbSchema([{ name: 'Book a Consultation', path: '/book-demo' }])}
+      />
+
+      <section className="section-wrapper booking-section" style={{ backgroundColor: 'var(--surface-alt)' }}>
+        <div className="container">
+          <div className="booking-grid">
+
+            {/* Left Column */}
+            <AnimatedSection className="booking-info">
+              <span className="section-label">FREE DISCOVERY CALL</span>
+              <h1 className="booking-title" style={{ textAlign: 'left', margin: '0 0 24px 0' }}>Let's Talk About Your HR Needs</h1>
+              <p className="booking-desc section-subtext" style={{ marginLeft: 0, textAlign: 'left' }}>
+                In 30 minutes, we'll understand your challenges, explain how FABZ can help, and outline next steps — with no pressure and no obligation.
+              </p>
+
+              <ul className="booking-checklist">
+                <li><span className="check" aria-hidden="true">✓</span> 30-minute focused conversation</li>
+                <li><span className="check" aria-hidden="true">✓</span> Identify your biggest HR challenge</li>
+                <li><span className="check" aria-hidden="true">✓</span> Discover which service is right for you</li>
+                <li><span className="check" aria-hidden="true">✓</span> Walk through engagement options and timelines</li>
+                <li><span className="check" aria-hidden="true">✓</span> Meet Faiza directly — no gatekeepers</li>
+              </ul>
+
+              <div className="booking-founder">
+                <img
+                  src="/faiza-avatar.webp"
+                  alt="Faiza Hussain"
+                  width="160"
+                  height="160"
+                  loading="lazy"
+                  decoding="async"
+                  className="booking-avatar"
+                />
+                <div>
+                  <strong>Faiza Hussain</strong>
+                  <p style={{ fontSize: '0.9rem', color: 'var(--muted)' }}>Founder & Principal HR Consultant</p>
+                </div>
+              </div>
+
+              <div className="booking-fallback">
+                Prefer email? <a className="text-link" href={`mailto:${SITE.email}`}>{SITE.email}</a>
+              </div>
+            </AnimatedSection>
+
+            {/* Right Column (Form) */}
+            <AnimatedSection className="booking-form-wrapper" delay={0.2}>
+              <BookingCalendar fallback={requestForm} bare />
             </AnimatedSection>
 
           </div>

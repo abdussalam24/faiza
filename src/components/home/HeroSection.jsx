@@ -15,7 +15,7 @@ const HeroSection = () => (
           </h1>
 
           <p className="hero-description hero-subtext">
-            FABZ HR International Inc. partners with businesses, families, and individuals to deliver expert HR solutions — from recruitment and executive search and fractional HR leadership to global mobility and career coaching. Built on trust. Delivered with accountability.
+            FABZ HR International Inc. partners with businesses, families, and individuals to deliver expert HR solutions — from recruitment and executive search and fractional HR leadership to global mobility and career services. Built on trust. Delivered with accountability.
           </p>
 
           <div className="hero-buttons cta-group rise-in rise-in-3">

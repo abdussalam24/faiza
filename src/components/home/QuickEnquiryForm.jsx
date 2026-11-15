@@ -15,7 +15,6 @@ const QuickEnquiryForm = () => {
             </p>
             <div className="enquiry-contact-info">
               <p><strong>Email:</strong> <a className="text-link" href={`mailto:${SITE.email}`}>{SITE.email}</a></p>
-              <p><strong>Phone:</strong> <a className="text-link" href={`tel:${SITE.phone.href}`}>{SITE.phone.display}</a></p>
               <p><strong>Location:</strong> {SITE.location}</p>
               <p className="enquiry-response">{SITE.responseTime}.</p>
             </div>

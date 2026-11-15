@@ -5,17 +5,84 @@ import Logo from './Logo';
 import { SERVICES } from '../../data/services';
 import { SITE } from '../../config/site';
 
+const RESOURCES = [
+  { name: 'Blog', path: '/blog' },
+  { name: 'Announcements', path: '/announcements' },
+];
+
+/** Accessible disclosure dropdown for the desktop nav: hover, click, ↓ to enter, Esc to close. */
+const NavDropdown = ({ id, label, items, active }) => {
+  const [open, setOpen] = useState(false);
+  const ref = useRef(null);
+  const btnRef = useRef(null);
+  const { pathname } = useLocation();
+
+  useEffect(() => setOpen(false), [pathname]);
+
+  useEffect(() => {
+    if (!open) return undefined;
+    const onKey = (e) => {
+      if (e.key === 'Escape') {
+        setOpen(false);
+        btnRef.current?.focus();
+      }
+    };
+    const onClick = (e) => {
+      if (ref.current && !ref.current.contains(e.target)) setOpen(false);
+    };
+    document.addEventListener('keydown', onKey);
+    document.addEventListener('mousedown', onClick);
+    return () => {
+      document.removeEventListener('keydown', onKey);
+      document.removeEventListener('mousedown', onClick);
+    };
+  }, [open]);
+
+  return (
+    <div
+      className="dropdown-container"
+      ref={ref}
+      onMouseEnter={() => setOpen(true)}
+      onMouseLeave={() => setOpen(false)}
+      onBlur={(e) => { if (!ref.current?.contains(e.relatedTarget)) setOpen(false); }}
+      onKeyDown={(e) => {
+        if (e.key === 'ArrowDown') {
+          e.preventDefault();
+          setOpen(true);
+          requestAnimationFrame(() => ref.current?.querySelector('.dropdown-item')?.focus());
+        }
+      }}
+    >
+      <button
+        ref={btnRef}
+        type="button"
+        className={`nav-link nav-dropdown-toggle ${active ? 'active' : ''}`}
+        aria-expanded={open}
+        aria-controls={id}
+        onClick={() => setOpen((o) => !o)}
+      >
+        {label} <ChevronDown size={16} aria-hidden="true" className={`chev ${open ? 'open' : ''}`} />
+      </button>
+      <ul id={id} className="dropdown-menu" hidden={!open}>
+        {items.map((item) => (
+          <li key={item.path}>
+            <NavLink to={item.path} className="dropdown-item">{item.name}</NavLink>
+          </li>
+        ))}
+      </ul>
+    </div>
+  );
+};
+
 const Navbar = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const [servicesOpen, setServicesOpen] = useState(false);
   const location = useLocation();
-  const servicesBtnRef = useRef(null);
-  const dropdownRef = useRef(null);
   const menuToggleRef = useRef(null);
   const overlayRef = useRef(null);
 
   const isServiceRoute = SERVICES.some((s) => location.pathname.startsWith(s.path));
+  const isResourceRoute = RESOURCES.some((r) => location.pathname.startsWith(r.path));
 
   useEffect(() => {
     const handleScroll = () => setIsScrolled(window.scrollY > 10);
@@ -27,7 +94,6 @@ const Navbar = () => {
   // Close menus on route change
   useEffect(() => {
     setMobileMenuOpen(false);
-    setServicesOpen(false);
   }, [location.pathname]);
 
   const closeMobile = useCallback(() => {
@@ -61,38 +127,6 @@ const Navbar = () => {
     };
   }, [mobileMenuOpen, closeMobile]);
 
-  // Desktop dropdown: Escape closes and returns focus; click outside closes.
-  useEffect(() => {
-    if (!servicesOpen) return undefined;
-    const onKey = (e) => {
-      if (e.key === 'Escape') {
-        setServicesOpen(false);
-        servicesBtnRef.current?.focus();
-      }
-    };
-    const onClick = (e) => {
-      if (dropdownRef.current && !dropdownRef.current.contains(e.target)) setServicesOpen(false);
-    };
-    document.addEventListener('keydown', onKey);
-    document.addEventListener('mousedown', onClick);
-    return () => {
-      document.removeEventListener('keydown', onKey);
-      document.removeEventListener('mousedown', onClick);
-    };
-  }, [servicesOpen]);
-
-  const onDropdownBlur = (e) => {
-    if (!dropdownRef.current?.contains(e.relatedTarget)) setServicesOpen(false);
-  };
-
-  const onDropdownKeyDown = (e) => {
-    if (e.key === 'ArrowDown') {
-      e.preventDefault();
-      setServicesOpen(true);
-      requestAnimationFrame(() => dropdownRef.current?.querySelector('.dropdown-item')?.focus());
-    }
-  };
-
   const navClass = ({ isActive }) => `nav-link ${isActive ? 'active' : ''}`;
 
   return (
@@ -106,36 +140,10 @@ const Navbar = () => {
         <nav className="desktop-nav" aria-label="Main">
           <NavLink to="/" end className={navClass}>Home</NavLink>
 
-          <div
-            className="dropdown-container"
-            ref={dropdownRef}
-            onMouseEnter={() => setServicesOpen(true)}
-            onMouseLeave={() => setServicesOpen(false)}
-            onBlur={onDropdownBlur}
-            onKeyDown={onDropdownKeyDown}
-          >
-            <button
-              ref={servicesBtnRef}
-              type="button"
-              className={`nav-link nav-dropdown-toggle ${isServiceRoute ? 'active' : ''}`}
-              aria-expanded={servicesOpen}
-              aria-controls="services-menu"
-              onClick={() => setServicesOpen((o) => !o)}
-            >
-              Services <ChevronDown size={16} aria-hidden="true" className={`chev ${servicesOpen ? 'open' : ''}`} />
-            </button>
-            <ul id="services-menu" className="dropdown-menu" hidden={!servicesOpen}>
-              {SERVICES.map((service) => (
-                <li key={service.path}>
-                  <NavLink to={service.path} className="dropdown-item">
-                    {service.name}
-                  </NavLink>
-                </li>
-              ))}
-            </ul>
-          </div>
+          <NavDropdown id="services-menu" label="Services" items={SERVICES} active={isServiceRoute} />
 
           <NavLink to="/about" className={navClass}>About</NavLink>
+          <NavDropdown id="resources-menu" label="Resources" items={RESOURCES} active={isResourceRoute} />
           <NavLink to="/contact" className={navClass}>Contact</NavLink>
           <Link to="/book-demo" className="btn btn-primary nav-cta">Book a Consultation</Link>
         </nav>
@@ -183,6 +191,16 @@ const Navbar = () => {
             ))}
           </ul>
           <NavLink to="/about" className={({ isActive }) => `mobile-link ${isActive ? 'active' : ''}`}>About</NavLink>
+          <p className="mobile-services-label" id="mobile-resources-label">Resources</p>
+          <ul aria-labelledby="mobile-resources-label" className="mobile-services">
+            {RESOURCES.map((r) => (
+              <li key={r.path}>
+                <NavLink to={r.path} className={({ isActive }) => `mobile-link nested ${isActive ? 'active' : ''}`}>
+                  {r.name}
+                </NavLink>
+              </li>
+            ))}
+          </ul>
           <NavLink to="/contact" className={({ isActive }) => `mobile-link ${isActive ? 'active' : ''}`}>Contact</NavLink>
         </nav>
         <div className="mobile-menu-foot">
@@ -190,7 +208,6 @@ const Navbar = () => {
             Book a Consultation <ArrowRight size={18} aria-hidden="true" />
           </Link>
           <p className="mobile-contact">
-            <a href={`tel:${SITE.phone.href}`}>{SITE.phone.display}</a>
             <a href={`mailto:${SITE.email}`}>{SITE.email}</a>
           </p>
         </div>

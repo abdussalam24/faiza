@@ -36,8 +36,15 @@ const outFile = (route) => (route === '/' ? 'index.html' : `${route.slice(1)}.ht
 for (const { path: route } of ROUTES) {
   const file = path.join(dist, outFile(route));
   await mkdir(path.dirname(file), { recursive: true });
-  await writeFile(file, fill(route));
+  const html = fill(route);
+  await writeFile(file, html);
   console.log(`  prerendered ${route.padEnd(18)} → dist/${outFile(route)}`);
+  // A route with child pages (e.g. /blog and /blog/my-post) also gets blog/index.html,
+  // so /blog resolves correctly whether the host prefers the file or the folder.
+  if (route !== '/' && ROUTES.some((r) => r.path.startsWith(`${route}/`))) {
+    await mkdir(path.join(dist, route.slice(1)), { recursive: true });
+    await writeFile(path.join(dist, route.slice(1), 'index.html'), html);
+  }
 }
 
 await writeFile(path.join(dist, '404.html'), fill(NOT_FOUND_RENDER_PATH));
@@ -49,7 +56,7 @@ const urls = ROUTES.filter((r) => r.sitemap !== false)
   .map(
     (r) => `  <url>
     <loc>${SITE.url}${r.path}</loc>
-    <lastmod>${today}</lastmod>
+    <lastmod>${r.lastmod || today}</lastmod>
     <changefreq>${r.changefreq}</changefreq>
     <priority>${r.priority}</priority>
   </url>`

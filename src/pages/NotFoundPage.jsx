@@ -13,7 +13,7 @@ const NotFoundPage = () => (
   <>
     <Seo
       title="Page Not Found | FABZ HR International Inc."
-      description="The page you were looking for could not be found. Explore FABZ HR services: recruitment, fractional HR, global mobility and career coaching in Canada."
+      description="The page you were looking for could not be found. Explore FABZ HR services: recruitment, fractional HR, global mobility and career services in Canada."
       path="/404"
       noindex
       canonical={false}

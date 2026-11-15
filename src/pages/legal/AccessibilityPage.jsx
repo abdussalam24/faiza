@@ -45,7 +45,6 @@ const sections = [
         <p>We welcome feedback on the accessibility of our website and services. To request an accommodation, request information in an accessible format, or tell us about a barrier:</p>
         <ul>
           <li>Email: <a href={`mailto:${SITE.email}?subject=Accessibility%20request`}>{SITE.email}</a></li>
-          <li>Phone: <a href={`tel:${SITE.phone.href}`}>{SITE.phone.display}</a></li>
         </ul>
         <p>We aim to respond to accessibility feedback within 2 business days and will work with you to find a solution.</p>
       </>

@@ -16,7 +16,7 @@ const sections = [
     title: 'Description of services',
     body: (
       <>
-        <p>FABZ HR provides human resources consulting services, including recruitment and executive search, fractional HR support, global mobility coordination and career coaching. FABZ HR holds an {SITE.recruiterLicence.label}{SITE.recruiterLicence.number && ` (No. ${SITE.recruiterLicence.number})`}.</p>
+        <p>FABZ HR provides human resources consulting services, including recruitment and executive search, fractional HR support, global mobility coordination and career services. FABZ HR holds an {SITE.recruiterLicence.label}{SITE.recruiterLicence.number && ` (No. ${SITE.recruiterLicence.number})`}.</p>
         <ul>
           <li>Our services are <strong>consulting and advisory</strong> in nature. We do not guarantee employment, a job offer, a placement, a promotion or any particular business outcome.</li>
           <li>We are <strong>not a law firm</strong> and are <strong>not a licensed immigration consultant</strong>. Information on this Website and our HR guidance are not legal, immigration, tax or financial advice. Where such advice is needed, we will recommend or coordinate with an appropriately licensed professional.</li>
@@ -141,7 +141,7 @@ const sections = [
     title: 'Contact',
     body: (
       <p>
-        Questions about these Terms? Contact {SITE.legalName} at <a href={`mailto:${SITE.email}`}>{SITE.email}</a> or <a href={`tel:${SITE.phone.href}`}>{SITE.phone.display}</a>. {SITE.registrationSentence}
+        Questions about these Terms? Contact {SITE.legalName} at <a href={`mailto:${SITE.email}`}>{SITE.email}</a>. {SITE.registrationSentence}
       </p>
     ),
   },

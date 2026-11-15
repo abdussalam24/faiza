@@ -18,8 +18,7 @@ const ThankYouPage = () => (
         <div className="status-icon" aria-hidden="true"><Check size={48} strokeWidth={3} /></div>
         <h1 className="status-title">Thanks — we've received your message</h1>
         <p className="status-copy">
-          {SITE.responseTime}. If your matter is urgent, call us on{' '}
-          <a className="text-link" href={`tel:${SITE.phone.href}`}>{SITE.phone.display}</a> or email{' '}
+          {SITE.responseTime}. If your matter is urgent, email us at{' '}
           <a className="text-link" href={`mailto:${SITE.email}`}>{SITE.email}</a>.
         </p>
         <div className="status-actions">

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { Mail, Phone, MapPin, Linkedin, Clock, CalendarCheck, ArrowRight } from 'lucide-react';
+import { Mail, MapPin, Linkedin, Clock, CalendarCheck, ArrowRight } from 'lucide-react';
 import AnimatedSection from '../components/ui/AnimatedSection';
 import PageHero from '../components/ui/PageHero';
 import FAQAccordion from '../components/ui/FAQAccordion';
@@ -17,14 +17,15 @@ const SERVICE_PARAM = {
   recruitment: 'Recruitment & Executive Search',
   'fractional-hr': 'Fractional HR',
   'global-mobility': 'Global Mobility',
-  'career-coaching': 'Career Coaching',
+  'career-services': 'Career Services',
+  'career-coaching': 'Career Services',
   other: 'Other',
 };
 
 const faqs = [
-  { q: 'How quickly will you respond to my enquiry?', a: 'We reply within 1 business day. If your matter is urgent, please mention it in your message or call us directly.' },
+  { q: 'How quickly will you respond to my enquiry?', a: 'We reply within 1 business day. If your matter is urgent, please mention it in your message.' },
   { q: 'Is the first consultation really free?', a: 'Yes. The first discovery call is free and carries no obligation. It is a chance to understand your needs and explain how we can help.' },
-  { q: 'Do you work with clients outside Ontario?', a: 'Yes. We are based in Ontario and work with clients across Canada. Global mobility and career coaching clients can be located anywhere, as sessions are held by video call.' },
+  { q: 'Do you work with clients outside Ontario?', a: 'Yes. We are based in Ontario and work with clients across Canada. Global mobility and career services clients can be located anywhere, as sessions are held by video call.' },
   { q: 'How do I apply for a job through FABZ HR?', a: 'Please use the application form on our Careers page rather than this contact form. We keep candidate profiles on file and reach out when a suitable role comes up.' },
   { q: 'Can my organization partner with FABZ HR?', a: 'We welcome vendors and service partners. Choose "Vendor / Partnership" in the form and tell us about your organization, your capabilities and how you would like to work together.' },
 ];
@@ -45,7 +46,7 @@ const ContactPage = () => {
     <>
       <Seo
         title="Contact FABZ HR | HR Consulting in Ontario, Canada"
-        description="Contact FABZ HR about recruitment, fractional HR, global mobility, career coaching or partnerships. Email, call or message us. We reply in 1 business day."
+        description="Contact FABZ HR about recruitment, fractional HR, global mobility, career services or partnerships. Email us or send a message. We reply in 1 business day."
         path="/contact"
         jsonLd={[breadcrumbSchema([{ name: 'Contact', path: '/contact' }]), faqSchema(faqs)]}
       />
@@ -81,13 +82,6 @@ const ContactPage = () => {
                 <div>
                   <h3>Email</h3>
                   <a className="text-link" href={`mailto:${SITE.email}`}>{SITE.email}</a>
-                </div>
-              </li>
-              <li className="contact-card">
-                <span className="contact-card-icon"><Phone size={22} aria-hidden="true" /></span>
-                <div>
-                  <h3>Phone</h3>
-                  <a className="text-link" href={`tel:${SITE.phone.href}`}>{SITE.phone.display}</a>
                 </div>
               </li>
               <li className="contact-card">
@@ -143,7 +137,7 @@ const ContactPage = () => {
             <span className="section-label on-navy">FREE DISCOVERY CALL</span>
             <h2 id="discovery-title" className="discovery-title">Book a Free Discovery Call</h2>
             <p className="discovery-copy">
-              Prefer to talk it through? Pick a time for a free 30-minute call with Faiza. We'll understand your situation, answer your questions and suggest the right next step.
+              Prefer to talk it through? Book a free 30-minute online meeting with Faiza. We'll understand your situation, answer your questions and suggest the right next step.
             </p>
           </AnimatedSection>
           <AnimatedSection delay={0.15}>
@@ -158,9 +152,9 @@ const ContactPage = () => {
               <div className="scheduler-placeholder">
                 <CalendarCheck size={40} aria-hidden="true" />
                 <h3>Choose a time that suits you</h3>
-                <p>Tell us your preferred date and time and we'll confirm your call by email.</p>
+                <p>Pick a time in our online calendar and your meeting invitation is sent straight to your inbox.</p>
                 <Link to="/book-demo" className="btn btn-primary">
-                  Request a Discovery Call <ArrowRight size={16} aria-hidden="true" />
+                  Open the Booking Calendar <ArrowRight size={16} aria-hidden="true" />
                 </Link>
               </div>
             )}

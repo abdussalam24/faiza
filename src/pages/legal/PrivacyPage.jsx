@@ -31,7 +31,7 @@ const sections = [
         <p>We use personal information to:</p>
         <ul>
           <li>respond to your enquiries and schedule consultations;</li>
-          <li>provide recruitment and executive search, fractional HR, global mobility and career coaching services;</li>
+          <li>provide recruitment and executive search, fractional HR, global mobility and career services;</li>
           <li>assess candidates and match them with suitable roles, and share candidate profiles with prospective employers <strong>only with the candidate's consent</strong>;</li>
           <li>send service-related communications, such as appointment confirmations and follow-ups;</li>
           <li>maintain and improve our website and services; and</li>
@@ -158,7 +158,6 @@ const sections = [
         <p>
           <strong>Privacy Officer, {SITE.legalName}</strong><br />
           Email: <Email /><br />
-          Phone: <a href={`tel:${SITE.phone.href}`}>{SITE.phone.display}</a><br />
           {SITE.location}
         </p>
         <p>You can also reach us through our <Link to="/contact">contact page</Link>.</p>

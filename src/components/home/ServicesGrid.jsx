@@ -51,7 +51,7 @@ const servicesData = [
   },
   {
     title: 'Helping individuals own their career path',
-    category: 'CAREER COACHING',
+    category: 'CAREER SERVICES',
     image: '/images/services/service-career-coach.webp',
     alt: 'Career coach and job seeker working together',
     bullets: [
@@ -62,7 +62,7 @@ const servicesData = [
       'Job search strategy'
     ],
     clients: 'professionals, executives, new grads',
-    link: '/career-coaching'
+    link: '/career-services'
   }
 ];
 

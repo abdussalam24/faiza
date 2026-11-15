@@ -122,7 +122,7 @@ const AboutPage = () => {
             <span className="section-label">ABOUT US</span>
             <h2 id="purpose-title" className="about-intro-title">People-centered support with a global outlook.</h2>
             <p className="registration-line">{SITE.registrationSentence} We hold an {SITE.recruiterLicence.label}{SITE.recruiterLicence.number && ` (No. ${SITE.recruiterLicence.number})`}.</p>
-            <p>We support organizations and professionals through recruitment and executive search, fractional HR, global mobility and career coaching. As we grow across borders, we remain grounded in clear guidance, practical action, and respect for every person we meet.</p>
+            <p>We support organizations and professionals through recruitment and executive search, fractional HR, global mobility and career services. As we grow across borders, we remain grounded in clear guidance, practical action, and respect for every person we meet.</p>
           </AnimatedSection>
 
           <div className="purpose-grid">

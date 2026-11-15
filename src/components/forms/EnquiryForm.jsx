@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import { FORMS } from '../../config/site';
 import FormSubmitFields from './FormSubmitFields';
 
-export const HOME_SERVICE_OPTIONS = ['Recruitment & Executive Search', 'Fractional HR', 'Global Mobility', 'Career Coaching', 'Other'];
+export const HOME_SERVICE_OPTIONS = ['Recruitment & Executive Search', 'Fractional HR', 'Global Mobility', 'Career Services', 'Other'];
 export const CONTACT_SERVICE_OPTIONS = [...HOME_SERVICE_OPTIONS, 'Vendor / Partnership'];
 
 /** Fire this from anywhere to preselect a service in the on-page enquiry form and focus it. */
