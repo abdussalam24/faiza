@@ -21,6 +21,13 @@ export const organizationSchema = () => ({
       foundingLocation: 'Toronto, Ontario, Canada',
       founder: { '@type': 'Person', name: 'Faiza Hussain', jobTitle: 'Founder & Principal HR Consultant' },
       sameAs: [SITE.social.linkedin],
+      hasCredential: {
+        '@type': 'EducationalOccupationalCredential',
+        credentialCategory: 'license',
+        name: SITE.recruiterLicence.label,
+        ...(SITE.recruiterLicence.number ? { identifier: SITE.recruiterLicence.number } : {}),
+        recognizedBy: { '@type': 'GovernmentOrganization', name: 'Government of Ontario' },
+      },
       contactPoint: {
         '@type': 'ContactPoint',
         contactType: 'customer service',

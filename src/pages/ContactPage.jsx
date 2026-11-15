@@ -96,6 +96,7 @@ const ContactPage = () => {
                   <h3>Location</h3>
                   <p>{SITE.location}</p>
                   <p className="contact-card-small">{SITE.registration}</p>
+                  <p className="contact-card-small">{SITE.recruiterLicence.label}{SITE.recruiterLicence.number && ` · No. ${SITE.recruiterLicence.number}`}</p>
                 </div>
               </li>
               <li className="contact-card">

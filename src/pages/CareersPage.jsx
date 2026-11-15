@@ -5,7 +5,7 @@ import AnimatedSection from '../components/ui/AnimatedSection';
 import PageHero from '../components/ui/PageHero';
 import Seo from '../components/seo/Seo';
 import { breadcrumbSchema } from '../components/seo/schema';
-import { CAREERS } from '../config/site';
+import { CAREERS, SITE } from '../config/site';
 
 const CareersPage = () => {
   // The iframe is mounted after hydration so its onLoad always fires (prerendered HTML shows the loader).
@@ -35,6 +35,9 @@ const CareersPage = () => {
           <AnimatedSection className="text-center">
             <p className="careers-lead">
               We connect talented professionals with meaningful roles. Submit your profile below — we keep profiles on file and reach out when the right role comes up.
+            </p>
+            <p className="careers-licence">
+              {SITE.legalName} holds an <strong>{SITE.recruiterLicence.label}</strong>. Candidates are never charged a fee to be considered for or placed in a role.
             </p>
           </AnimatedSection>
         </div>
@@ -98,6 +101,16 @@ const CareersPage = () => {
       </section>
 
       <style dangerouslySetInnerHTML={{ __html: `
+        .careers-licence {
+          max-width: 760px;
+          margin: 1.25rem auto 0;
+          display: inline-block;
+          border-left: 3px solid var(--lime);
+          padding-left: 12px;
+          color: var(--navy-80);
+          text-align: left;
+        }
+        .careers-licence strong { color: var(--navy); }
         .careers-lead {
           font-size: 1.2rem;
           color: var(--navy-80);

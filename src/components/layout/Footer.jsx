@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { Linkedin, MapPin, Phone, Mail, Building2 } from 'lucide-react';
+import { Linkedin, MapPin, Phone, Mail, Building2, BadgeCheck } from 'lucide-react';
 import Logo from './Logo';
 import { SITE } from '../../config/site';
 import { SERVICES } from '../../data/services';
@@ -69,6 +69,13 @@ const Footer = () => (
             <li>
               <Building2 size={18} className="contact-icon" aria-hidden="true" />
               <span>{SITE.registration}</span>
+            </li>
+            <li>
+              <BadgeCheck size={18} className="contact-icon" aria-hidden="true" />
+              <span>
+                {SITE.recruiterLicence.label}
+                {SITE.recruiterLicence.number && <> · No. {SITE.recruiterLicence.number}</>}
+              </span>
             </li>
           </ul>
         </div>

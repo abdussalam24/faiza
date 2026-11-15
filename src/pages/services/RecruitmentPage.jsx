@@ -1,5 +1,6 @@
 import React from 'react';
 import ServicePageTemplate from '../../components/ui/ServicePageTemplate';
+import { SITE } from '../../config/site';
 
 /* Recruitment & Executive Search — core wording from www.fabzhr.com */
 const RecruitmentPage = () => {
@@ -18,7 +19,8 @@ const RecruitmentPage = () => {
       "A single hire can change the direction of a team. Getting it right takes more than posting a job ad and sorting resumes — it takes a clear picture of what success looks like in the role, and a disciplined process for finding people who can deliver it.",
       "FABZ HR runs focused searches for specialist, professional and leadership roles. We define the role and success profile with you, source and assess suitable talent, and support you through interviews and the offer.",
       "Faiza has led hiring for organizations ranging from startups with 10 employees to enterprises with more than 1,000, across finance, technology, healthcare, aviation and education. That hiring-side experience shapes every search: we know what to probe in an interview and which signals matter.",
-      "Every search is run with discretion. Candidates are approached respectfully and confidentially, and you only see people who have been properly assessed against the brief we agreed together."
+      "Every search is run with discretion. Candidates are approached respectfully and confidentially, and you only see people who have been properly assessed against the brief we agreed together.",
+      `${SITE.legalName} holds an ${SITE.recruiterLicence.label}, so you can be confident your search is run by a recruiter licensed to operate in Ontario.`
     ],
     glance: {
       who: "Growing companies, SMBs and leadership teams",
@@ -84,6 +86,7 @@ const RecruitmentPage = () => {
     { q: 'How long does a search typically take?', a: 'Most searches take 3–8 weeks from brief to accepted offer, depending on the seniority of the role and the market for that skill set.' },
     { q: 'How are your fees structured?', a: 'Fees are agreed in writing before the search begins. Professional roles are usually on a success-based placement fee, and leadership or confidential roles on a retained search. We do not publish fixed rates because every search is different.' },
     { q: 'Can you run a confidential search?', a: 'Yes. We regularly handle confidential searches, for example when replacing an incumbent. Your organization’s name is only shared with candidates when you approve it.' },
+    { q: 'Are you a licensed recruiter?', a: `Yes. ${SITE.legalName} holds an ${SITE.recruiterLicence.label}${SITE.recruiterLicence.number ? ` (No. ${SITE.recruiterLicence.number})` : ''}, as required for recruiters operating in Ontario under the Employment Standards Act, 2000.` },
     { q: 'Do candidates pay anything?', a: 'No. Candidates are never charged a fee for being considered for or placed in a role.' },
     { q: 'Who makes the final hiring decision?', a: 'You do. We assess candidates, share our honest view and support the process, but the final decision always rests with your organization.' },
     { q: 'Do you recruit outside Ontario?', a: 'Yes. We work with organizations across Canada, and can support international hires together with our Global Mobility service.' },

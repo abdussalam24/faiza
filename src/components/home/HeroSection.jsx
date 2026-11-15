@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { ArrowRight } from 'lucide-react';
+import { SITE } from '../../config/site';
 
 const HeroSection = () => (
   <section className="hero-section on-navy" aria-labelledby="hero-title">
@@ -30,6 +31,7 @@ const HeroSection = () => (
             <li className="chip"><span aria-hidden="true">🇨🇦</span> Based in Canada</li>
             <li className="chip"><span aria-hidden="true">🌍</span> Global Reach</li>
             <li className="chip">14+ Years Experience</li>
+            <li className="chip"><span aria-hidden="true">✓</span> {SITE.recruiterLicence.label}</li>
           </ul>
         </div>
 

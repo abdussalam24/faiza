@@ -29,6 +29,15 @@ export const SITE = {
   location: 'Ontario, Canada',
   registration: 'FABZ HR International Inc., registered in Toronto, Canada',
   registrationSentence: 'FABZ HR International Inc. is registered in Toronto, Canada.',
+
+  /**
+   * Ontario recruiter licence (Employment Standards Act, 2000).
+   * Add the licence number from the Ministry of Labour approval to show it everywhere.
+   */
+  recruiterLicence: {
+    label: 'Approved Ontario Company Recruiter Licence',
+    number: '',
+  },
   address: {
     locality: 'Toronto',
     region: 'ON',
