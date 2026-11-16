@@ -69,18 +69,19 @@ function buildIco(pngs) {
   return Buffer.concat([header, dir, ...pngs.map((p) => p.buf)]);
 }
 
-/** Door symbol centred on a rounded navy tile — used for favicons and app icons. */
-async function doorTile(size, doorReversed) {
-  const pad = Math.round(size * 0.12);
-  const door = await sharp(doorReversed)
-    .resize(size - pad * 2, size - pad * 2, { fit: 'contain', background: { r: 0, g: 0, b: 0, alpha: 0 } })
+/**
+ * Full-colour door symbol centred on a square canvas — used for favicons and app icons.
+ * Browser favicons stay transparent; home-screen icons get a solid white background
+ * because iOS fills transparent pixels with black.
+ */
+async function doorIcon(size, doorSrc, { pad = 0.04, background = { r: 0, g: 0, b: 0, alpha: 0 } } = {}) {
+  const inset = Math.round(size * pad);
+  const door = await sharp(doorSrc)
+    .trim()
+    .resize(size - inset * 2, size - inset * 2, { fit: 'contain', background: { r: 0, g: 0, b: 0, alpha: 0 } })
     .toBuffer();
-  const radius = Math.round(size * 0.2);
-  const mask = Buffer.from(
-    `<svg width="${size}" height="${size}"><rect width="${size}" height="${size}" rx="${radius}" ry="${radius}" fill="#fff"/></svg>`
-  );
-  return sharp({ create: { width: size, height: size, channels: 4, background: { ...NAVY, alpha: 1 } } })
-    .composite([{ input: door, gravity: 'center' }, { input: mask, blend: 'dest-in' }])
+  return sharp({ create: { width: size, height: size, channels: 4, background } })
+    .composite([{ input: door, gravity: 'center' }])
     .png()
     .toBuffer();
 }
@@ -101,15 +102,15 @@ async function main() {
   const doorSrc = src('fabz-door-source.png');
   await sharp(doorSrc).resize(560).webp({ quality: 85 }).toFile(out('images/fabz-door.webp'));
   await sharp(doorSrc).resize(560).png({ compressionLevel: 9 }).toFile(out('images/fabz-door.png'));
-  const doorReversed = await reverseForDark(doorSrc);
 
   // 3. Favicons ---------------------------------------------------------------
   const icoFrames = [];
-  for (const size of [16, 32, 48]) icoFrames.push({ size, buf: await doorTile(size, doorReversed) });
+  for (const size of [16, 32, 48]) icoFrames.push({ size, buf: await doorIcon(size, doorSrc) });
   await writeFile(out('favicon.ico'), buildIco(icoFrames));
   await writeFile(out('favicon-32.png'), icoFrames[1].buf);
-  await writeFile(out('apple-touch-icon.png'), await doorTile(180, doorReversed));
-  await writeFile(out('icon-512.png'), await doorTile(512, doorReversed));
+  const white = { r: 255, g: 255, b: 255, alpha: 1 };
+  await writeFile(out('apple-touch-icon.png'), await doorIcon(180, doorSrc, { pad: 0.1, background: white }));
+  await writeFile(out('icon-512.png'), await doorIcon(512, doorSrc, { pad: 0.1, background: white }));
 
   // 4. Open Graph image (1200x630, navy, logo + tagline) -----------------------
   const ogLogo = await sharp(logoReversed).resize(860).toBuffer();
