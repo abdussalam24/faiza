@@ -4,7 +4,6 @@ import ScrollToTop from './components/ui/ScrollToTop';
 import ScrollReset from './components/ui/ScrollReset';
 
 // Layout Components
-import TopBar from './components/layout/TopBar';
 import Navbar from './components/layout/Navbar';
 import Footer from './components/layout/Footer';
 import ChatWidget from './components/layout/ChatWidget';
@@ -39,7 +38,6 @@ function App() {
       <ScrollReset />
       <a href="#main" className="skip-link">Skip to main content</a>
       <div className="app-container">
-        <TopBar />
         <Navbar />
         <main id="main" tabIndex={-1}>
           <Routes>
