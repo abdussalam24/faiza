@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { Linkedin, MapPin, Mail, Building2, BadgeCheck } from 'lucide-react';
+import { Linkedin, Instagram, MapPin, Mail, Building2, BadgeCheck } from 'lucide-react';
 import Logo from './Logo';
 import { SITE } from '../../config/site';
 import { SERVICES } from '../../data/services';
@@ -18,15 +18,26 @@ const Footer = () => (
           <p className="footer-desc">
             HR consulting for organizations and professionals — recruitment and executive search, fractional HR, global mobility and career services.
           </p>
-          <a
-            href={SITE.social.linkedin}
-            className="footer-social"
-            target="_blank"
-            rel="noopener noreferrer"
-            aria-label="FABZ HR on LinkedIn (opens in a new tab)"
-          >
-            <Linkedin size={20} aria-hidden="true" />
-          </a>
+          <div className="footer-socials">
+            <a
+              href={SITE.social.linkedin}
+              className="footer-social"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="FABZ HR on LinkedIn (opens in a new tab)"
+            >
+              <Linkedin size={20} aria-hidden="true" />
+            </a>
+            <a
+              href={SITE.social.instagram}
+              className="footer-social"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="FABZ HR on Instagram (opens in a new tab)"
+            >
+              <Instagram size={20} aria-hidden="true" />
+            </a>
+          </div>
         </div>
 
         {/* Col 2 — services */}
@@ -128,6 +139,10 @@ const Footer = () => (
         line-height: 1.65;
         margin-bottom: 1.25rem;
         max-width: 340px;
+      }
+      .footer-socials {
+        display: flex;
+        gap: 0.75rem;
       }
       .footer-social {
         display: inline-flex;

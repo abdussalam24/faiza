@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { Mail, MapPin, Linkedin, Clock, CalendarCheck, ArrowRight } from 'lucide-react';
+import { Mail, MapPin, Linkedin, Instagram, Clock, CalendarCheck, ArrowRight } from 'lucide-react';
 import AnimatedSection from '../components/ui/AnimatedSection';
 import PageHero from '../components/ui/PageHero';
 import FAQAccordion from '../components/ui/FAQAccordion';
@@ -100,6 +100,15 @@ const ContactPage = () => {
                   <h3>LinkedIn</h3>
                   <a className="text-link" href={SITE.social.linkedin} target="_blank" rel="noopener noreferrer">
                     Follow FABZ HR<span className="sr-only"> on LinkedIn (opens in a new tab)</span>
+                  </a>
+                </div>
+              </li>
+              <li className="contact-card">
+                <span className="contact-card-icon"><Instagram size={22} aria-hidden="true" /></span>
+                <div>
+                  <h3>Instagram</h3>
+                  <a className="text-link" href={SITE.social.instagram} target="_blank" rel="noopener noreferrer">
+                    @fabzhrinternational<span className="sr-only"> on Instagram (opens in a new tab)</span>
                   </a>
                 </div>
               </li>

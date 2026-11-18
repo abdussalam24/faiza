@@ -42,6 +42,7 @@ export const SITE = {
 
   social: {
     linkedin: 'https://www.linkedin.com/company/fabz-hr/',
+    instagram: 'https://www.instagram.com/fabzhrinternational/',
   },
 
   /** Year shown in the footer copyright line. */

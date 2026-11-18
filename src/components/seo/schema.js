@@ -19,7 +19,7 @@ export const organizationSchema = () => ({
       email: SITE.email,
       foundingLocation: 'Toronto, Ontario, Canada',
       founder: { '@type': 'Person', name: 'Faiza Hussain', jobTitle: 'Founder & Principal HR Consultant' },
-      sameAs: [SITE.social.linkedin],
+      sameAs: [SITE.social.linkedin, SITE.social.instagram],
       hasCredential: {
         '@type': 'EducationalOccupationalCredential',
         credentialCategory: 'license',
@@ -55,7 +55,7 @@ export const organizationSchema = () => ({
         { '@type': 'AdministrativeArea', name: 'Ontario' },
         { '@type': 'Country', name: 'Canada' },
       ],
-      sameAs: [SITE.social.linkedin],
+      sameAs: [SITE.social.linkedin, SITE.social.instagram],
     },
   ],
 });
